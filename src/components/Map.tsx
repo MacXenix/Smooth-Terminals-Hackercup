@@ -44,15 +44,20 @@ export const ManilaMap: React.FC<MapProps> = ({
         container: mapContainer.current,
         style: maptilersdk.MapStyle.STREETS,
         center: [120.9842, 14.5995], // Manila City Center
-        zoom: 13.2,
+        zoom: 13.5,
         minZoom: 12.2,
         maxZoom: 18,
-        pitch: 30,
+        pitch: 0,
         maxBounds: STRICT_MANILA_BOUNDS,
       });
 
       map.addControl(new maptilersdk.NavigationControl(), 'top-right');
       mapInstance.current = map;
+
+      // Ensure crisp canvas rendering
+      map.on('load', () => {
+        map.resize();
+      });
     } catch (err) {
       console.error('Error initializing map:', err);
     }
@@ -65,40 +70,37 @@ export const ManilaMap: React.FC<MapProps> = ({
     };
   }, []);
 
-  // 🏛️ Render University Pin ONLY when active (Default is DEACTIVATED / Hidden!)
+  // 🏛️ Render Active University Landmark Pin (Without outer CSS transform conflicts!)
   useEffect(() => {
     const map = mapInstance.current;
     if (!map) return;
 
-    // Clear existing university pin markers
     uniMarkersRef.current.forEach((m) => m.remove());
     uniMarkersRef.current = [];
 
-    // If NO university is active, keep university pins hidden (Default Deactivated!)
     if (!selectedUniversity) return;
 
-    // Fly camera smoothly to active university campus
     map.flyTo({
       center: [selectedUniversity.lng, selectedUniversity.lat],
-      zoom: 15.5,
+      zoom: 16,
       essential: true,
     });
 
-    // Create ONLY the active University Landmark Pin
     const uniEl = document.createElement('div');
-    uniEl.className = 'cursor-pointer group transform transition-all duration-300 hover:scale-125 z-40';
 
+    // Put transitions on INNER element to prevent MapTiler Matrix transform collision!
     uniEl.innerHTML = `
-      <div class="relative flex flex-col items-center">
-        <div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-3 py-1.5 rounded-2xl shadow-2xl border-2 border-amber-300 flex items-center space-x-1.5 font-extrabold text-xs tracking-tight animate-bounce">
-          <span>🏛️</span>
-          <span>${selectedUniversity.shortCode} Campus</span>
+      <div class="cursor-pointer transition-transform duration-200 hover:scale-110">
+        <div class="relative flex flex-col items-center">
+          <div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-3 py-1.5 rounded-2xl shadow-2xl border-2 border-amber-300 flex items-center space-x-1.5 font-extrabold text-xs tracking-tight animate-bounce">
+            <span>🏛️</span>
+            <span>${selectedUniversity.shortCode} Campus</span>
+          </div>
+          <div class="w-2.5 h-2.5 bg-amber-700 rotate-45 -mt-1 border-r border-b border-amber-300"></div>
         </div>
-        <div class="w-2.5 h-2.5 bg-amber-700 rotate-45 -mt-1 border-r border-b border-amber-300"></div>
       </div>
     `;
 
-    // Click active pin to deactivate / reset view
     uniEl.addEventListener('click', (e) => {
       e.stopPropagation();
       if (onSelectUniversity) onSelectUniversity(null);
@@ -112,15 +114,15 @@ export const ManilaMap: React.FC<MapProps> = ({
       </div>
     `;
 
-    const marker = new maptilersdk.Marker({ element: uniEl })
+    const marker = new maptilersdk.Marker({ element: uniEl, anchor: 'bottom' })
       .setLngLat([selectedUniversity.lng, selectedUniversity.lat])
-      .setPopup(new maptilersdk.Popup({ offset: 20 }).setHTML(popupHTML))
+      .setPopup(new maptilersdk.Popup({ offset: 25 }).setHTML(popupHTML))
       .addTo(map);
 
     uniMarkersRef.current.push(marker);
   }, [selectedUniversity, onSelectUniversity]);
 
-  // ☕ Render Third Space Spot Pins
+  // ☕ Render Third Space Spot Pins (Without outer CSS transform conflicts!)
   useEffect(() => {
     const map = mapInstance.current;
     if (!map) return;
@@ -136,9 +138,8 @@ export const ManilaMap: React.FC<MapProps> = ({
       }
 
       const pinEl = document.createElement('div');
-      pinEl.className = 'cursor-pointer group transform transition-all duration-300 hover:scale-125 z-20 hover:z-50';
 
-      let bgGradient = 'from-[#567b66] to-[#3a5849]';
+      let bgGradient = 'from-[#76ab13] to-[#45690b]'; // Matcha Green default
       let categorySymbol = '☕';
 
       if (spot.category === 'library') {
@@ -155,13 +156,16 @@ export const ManilaMap: React.FC<MapProps> = ({
         categorySymbol = '🏢';
       }
 
+      // Put transitions on INNER element to prevent MapTiler Matrix transform collision!
       pinEl.innerHTML = `
-        <div class="relative flex flex-col items-center">
-          <div class="bg-gradient-to-tr ${bgGradient} text-white px-2.5 py-1 rounded-xl shadow-lg border border-white flex items-center space-x-1 font-bold text-[11px]">
-            <span>${categorySymbol}</span>
-            <span class="max-w-[110px] truncate">${spot.title}</span>
+        <div class="cursor-pointer transition-transform duration-200 hover:scale-110">
+          <div class="relative flex flex-col items-center">
+            <div class="bg-gradient-to-tr ${bgGradient} text-white px-2.5 py-1 rounded-xl shadow-lg border border-white flex items-center space-x-1 font-bold text-[11px]">
+              <span>${categorySymbol}</span>
+              <span class="max-w-[120px] truncate">${spot.title}</span>
+            </div>
+            <div class="w-2 h-2 bg-[#1b2a22] rotate-45 -mt-1 border-r border-b border-white"></div>
           </div>
-          <div class="w-2 h-2 bg-[#1b2a22] rotate-45 -mt-1 border-r border-b border-white"></div>
         </div>
       `;
 
@@ -174,13 +178,13 @@ export const ManilaMap: React.FC<MapProps> = ({
         <div style="font-family: 'Inter', sans-serif; padding: 4px; max-width: 200px;">
           <h4 style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 13px; color: #1b2a22; margin: 0 0 4px 0;">${spot.title}</h4>
           <p style="font-size: 11px; color: #586b61; margin: 0 0 6px 0;">${spot.address}</p>
-          <span style="background: #eef3f0; color: #567b66; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">${spot.price_range}</span>
+          <span style="background: #e8f5d6; color: #45690b; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">${spot.price_range}</span>
         </div>
       `;
 
-      const marker = new maptilersdk.Marker({ element: pinEl })
+      const marker = new maptilersdk.Marker({ element: pinEl, anchor: 'bottom' })
         .setLngLat([spot.lng, spot.lat])
-        .setPopup(new maptilersdk.Popup({ offset: 20 }).setHTML(popupHTML))
+        .setPopup(new maptilersdk.Popup({ offset: 25 }).setHTML(popupHTML))
         .addTo(map);
 
       spotMarkersRef.current.push(marker);
@@ -188,14 +192,14 @@ export const ManilaMap: React.FC<MapProps> = ({
   }, [spots, selectedCategory, onSelectSpot]);
 
   return (
-    <div className="w-full relative rounded-3xl overflow-hidden border border-[#dce4e0] shadow-md bg-[#eef3f0]" style={{ height: '440px' }}>
+    <div className="w-full relative rounded-3xl overflow-hidden border border-[#c8e2a6] shadow-md bg-[#eef3f0]" style={{ height: '440px' }}>
       <div ref={mapContainer} style={{ width: '100%', height: '100%', minHeight: '440px' }} />
-      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#dce4e0] shadow-sm text-xs font-bold text-[#567b66] pointer-events-none z-10 flex items-center gap-1.5">
+      <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-[#c8e2a6] shadow-sm text-xs font-bold text-[#45690b] pointer-events-none z-10 flex items-center gap-1.5">
         <span>🗺️</span>
         <span>
           {selectedUniversity
             ? `Active Landmark: ${selectedUniversity.name} (${selectedUniversity.shortCode})`
-            : 'Metro Manila Interactive Map (Select a Campus to Activate Landmark)'}
+            : 'Metro Manila Interactive Map'}
         </span>
       </div>
     </div>

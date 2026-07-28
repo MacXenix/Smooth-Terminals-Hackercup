@@ -138,8 +138,9 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
     setCurrentPage(1);
   };
 
-  // Google Maps link generator
-  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${spot.lat || 14.5995},${spot.lng || 120.9842}`;
+  // Human-readable Google Maps query using Place Title + Address
+  const placeSearchQuery = `${spot.title}, ${spot.address}`;
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(placeSearchQuery)}`;
 
   return (
     <div className="min-h-screen bg-[#e8f5d6] text-[#1b2a22] font-sans pb-16">
@@ -160,7 +161,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 pt-6 space-y-6">
-        {/* 1. HERO TOP ROW (Matched to exact wireframe color scheme) */}
+        {/* 1. HERO TOP ROW */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
           {/* Left Column: Square Image Card */}
           <div className="md:col-span-5 h-72 md:h-80 rounded-3xl overflow-hidden border border-[#c8e2a6] shadow-md bg-white">
@@ -325,7 +326,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
 
           {/* RIGHT COLUMN SIDEBAR: Vibrant Matcha Green Contact Card */}
           <div className="lg:col-span-5 bg-[#76ab13] text-white p-6 rounded-3xl shadow-xl space-y-6">
-            {/* Embedded Mini Map Preview */}
+            {/* Embedded Mini Map Preview (Query by Place Title + Address) */}
             <div className="w-full h-44 rounded-2xl overflow-hidden border-2 border-white/40 relative bg-[#5f8a0f] shadow-md">
               <iframe
                 title="Location Map"
@@ -333,7 +334,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                 height="100%"
                 frameBorder="0"
                 style={{ border: 0, filter: 'contrast(1.05)' }}
-                src={`https://maps.google.com/maps?q=${spot.lat || 14.5995},${spot.lng || 120.9842}&z=15&output=embed`}
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(placeSearchQuery)}&z=15&output=embed`}
                 allowFullScreen
               />
             </div>
@@ -375,7 +376,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                   <span>(02) 8323 - 3232</span>
                 </div>
 
-                {/* Google Maps Link */}
+                {/* Google Maps Link (Human-readable Place Name query) */}
                 <a
                   href={googleMapsUrl}
                   target="_blank"
@@ -385,7 +386,8 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                   <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <MapPin className="w-4 h-4 text-white" />
                   </div>
-                  <span className="truncate">{googleMapsUrl}</span>
+                  <span className="truncate">Open in Google Maps ({spot.title})</span>
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0 ml-auto" />
                 </a>
 
                 {/* Operating Hours */}
