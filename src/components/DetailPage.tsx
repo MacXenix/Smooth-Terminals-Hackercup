@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { ThirdSpace } from '../lib/supabase';
+import logoImg from '../assets/logo.png';
 import {
   Pagination,
   PaginationContent,
@@ -47,7 +48,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
       avatarBg: 'bg-emerald-100 text-emerald-800',
       initials: 'AK',
       comment:
-        'Studying at this hub has been an incredible journey so far! The Wi-Fi speed is fast (around 45 Mbps), outlets are everywhere, and the aircon is cold. 10/10 recommend during finals week.',
+        'Studying at this hub has been an incredible journey so far! The Wi-Fi speed is fast (around 45 Mbps), outlets are everywhere, aircon is cold, and price is super affordable for students. 10/10 recommend during finals week.',
       upvotes: 14,
       downvotes: 1,
     },
@@ -73,7 +74,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
       avatarBg: 'bg-emerald-100 text-emerald-700',
       initials: 'JD',
       comment:
-        'Great atmosphere for coding and group project meetings. Staff are friendly, and brewed coffee is refillable.',
+        'Great atmosphere for coding and group project meetings. Staff are friendly, price rates are student-budget friendly, and brewed coffee is refillable.',
       upvotes: 7,
       downvotes: 0,
     },
@@ -145,18 +146,23 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
   return (
     <div className="min-h-screen bg-[#e8f5d6] text-[#1b2a22] font-sans pb-16">
       {/* Top Sticky Navigation */}
-      <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-[#c8e2a6] px-4 py-3 shadow-sm">
+      <div className="sticky top-0 z-40 bg-white/70 backdrop-blur-xl border-b border-white/60 px-4 py-2.5 shadow-sm">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <button
             onClick={onBack}
-            className="flex items-center space-x-2 text-xs sm:text-sm font-bold text-[#45690b] hover:text-[#76ab13] transition"
+            className="flex items-center space-x-2 text-xs sm:text-sm font-bold text-[#45690b] hover:text-[#1b5e39] transition group"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             <span>Back to Manila Directory</span>
           </button>
-          <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#76ab13] text-white uppercase tracking-wider shadow-sm">
-            {spot.category}
-          </span>
+
+          <div className="flex items-center space-x-2 cursor-pointer" onClick={onBack}>
+            <img src={logoImg} alt="ALTSpaces Logo" className="w-7 h-7 object-contain rounded-xl" />
+            <span className="text-sm font-extrabold text-[#1b5e39] hidden sm:inline">ALTSpaces</span>
+            <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#1b5e39] text-white uppercase tracking-wider shadow-sm ml-2">
+              {spot.category}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -171,7 +177,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80'
               }
               alt={spot.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
 
@@ -183,7 +189,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                 <h1 className="text-2xl sm:text-4xl font-extrabold text-[#1b2a22] leading-tight">
                   {spot.title}
                 </h1>
-                <p className="text-xs sm:text-sm text-[#45690b] font-semibold mt-1 flex items-center gap-1">
+                <p className="text-xs sm:text-sm text-[#45690b] font-semibold mt-1 flex items-center gap-1.5 flex-wrap">
                   <span className="capitalize">{spot.category}</span>
                   <span>|</span>
                   <span className="truncate">{spot.address}</span>
@@ -194,14 +200,14 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               <div className="flex flex-col sm:flex-row gap-2 shrink-0">
                 <button
                   onClick={() => setIsSuggestEditOpen(!isSuggestEditOpen)}
-                  className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#76ab13] hover:bg-[#5f8a0f] text-white text-xs font-bold rounded-xl shadow transition"
+                  className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#76ab13] hover:bg-[#5f8a0f] active:scale-95 text-white text-xs font-bold rounded-xl shadow transition-all duration-200"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
                   <span>Suggest Edit ⭐️</span>
                 </button>
                 <button
                   onClick={() => setIsFavorited(!isFavorited)}
-                  className={`flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold rounded-xl shadow transition ${
+                  className={`flex items-center space-x-1.5 px-3.5 py-2 text-xs font-bold rounded-xl shadow active:scale-95 transition-all duration-200 ${
                     isFavorited
                       ? 'bg-[#45690b] text-white'
                       : 'bg-[#76ab13] hover:bg-[#5f8a0f] text-white'
@@ -215,7 +221,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
 
             {/* Suggest Edit Banner */}
             {isSuggestEditOpen && (
-              <div className="p-3 bg-white border border-[#76ab13] rounded-xl text-xs text-[#1b2a22] shadow-sm animate-in fade-in">
+              <div className="p-3.5 bg-white/90 backdrop-blur-md border border-[#76ab13] rounded-2xl text-xs text-[#1b2a22] shadow-sm animate-in fade-in">
                 ✍️ <strong>Suggest an Edit:</strong> Have updated Wi-Fi speed, outlet locations, or kainan prices? Submit edits via community reviews below!
               </div>
             )}
@@ -223,7 +229,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
             {/* Side-by-Side Cards: Third Space Rating™ & What To Know? */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               {/* Black Card: Third Space Rating™ */}
-              <div className="bg-[#000000] text-white p-5 rounded-3xl flex flex-col justify-between shadow-xl space-y-3">
+              <div className="bg-[#000000] text-white p-5 rounded-3xl flex flex-col justify-between shadow-xl space-y-3 hover:scale-[1.02] transition-transform duration-300">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 rounded-full bg-amber-300 text-[#000000] flex items-center justify-center text-xl font-bold shadow">
                     🌼
@@ -239,7 +245,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               </div>
 
               {/* Light Olive Green Card: What To Know? */}
-              <div className="bg-[#b5d354] text-[#1b2a22] p-5 rounded-3xl flex flex-col justify-between shadow-md space-y-2 border border-[#9ebd34]">
+              <div className="bg-[#b5d354] text-[#1b2a22] p-5 rounded-3xl flex flex-col justify-between shadow-md space-y-2 border border-[#9ebd34] hover:scale-[1.02] transition-transform duration-300">
                 <div>
                   <h3 className="text-base font-extrabold text-[#1b2a22]">What To Know?</h3>
                   <p className="text-xs text-[#1b2a22] leading-relaxed mt-1 line-clamp-3 font-semibold">
@@ -255,51 +261,54 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
           </div>
         </div>
 
-        {/* 2. MAIN CONTENT ROW (White Left Card + Vibrant Matcha Right Sidebar) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* LEFT COLUMN: What this place offers + Videos & Photos */}
-          <div className="lg:col-span-7 bg-white border border-[#c8e2a6] p-6 rounded-3xl shadow-sm space-y-8">
+        {/* 2. MAIN CONTENT ROW */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          {/* LEFT COLUMN CARD: What this place offers + Larger Videos & Photos */}
+          <div className="lg:col-span-7 bg-white/80 backdrop-blur-md border border-white/80 p-7 rounded-3xl shadow-sm flex flex-col justify-between space-y-8 h-full">
             {/* Section A: What this place offers */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-extrabold text-[#1b2a22]">What this place offers</h2>
-              <div className="grid grid-cols-2 gap-4 text-xs font-bold text-[#1b2a22]">
-                <div className="flex items-center space-x-2.5">
-                  <span className="text-[#84bd19] text-base">🌼</span>
+            <div className="space-y-5">
+              <h2 className="text-2xl font-extrabold text-[#1b2a22]">What this place offers</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base font-extrabold text-[#1b2a22]">
+                <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
+                  <span className="text-[#84bd19] text-xl">🌼</span>
                   <span>{spot.has_wifi ? 'Fast 45 Mbps Wi-Fi' : 'No Wi-Fi'}</span>
                 </div>
-                <div className="flex items-center space-x-2.5">
-                  <span className="text-[#84bd19] text-base">🌼</span>
+                <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
+                  <span className="text-[#84bd19] text-xl">🌼</span>
                   <span>{spot.has_outlets ? 'Desk Power Outlets' : 'No Outlets'}</span>
                 </div>
-                <div className="flex items-center space-x-2.5">
-                  <span className="text-[#84bd19] text-base">🌼</span>
+                <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
+                  <span className="text-[#84bd19] text-xl">🌼</span>
                   <span>{spot.is_free ? '100% Free Entry' : `Paid Spot (${spot.price_range})`}</span>
                 </div>
-                <div className="flex items-center space-x-2.5">
-                  <span className="text-[#84bd19] text-base">🌼</span>
+                <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
+                  <span className="text-[#84bd19] text-xl">🌼</span>
                   <span>{spot.is_24_7 ? 'Open 24/7 (Late Night)' : 'Standard Hours'}</span>
                 </div>
-                <div className="flex items-center space-x-2.5">
-                  <span className="text-[#84bd19] text-base">🌼</span>
+                <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
+                  <span className="text-[#84bd19] text-xl">🌼</span>
                   <span>{spot.needs_student_id ? 'Requires Student ID' : 'Open to All'}</span>
                 </div>
-                <div className="flex items-center space-x-2.5">
-                  <span className="text-[#84bd19] text-base">🌼</span>
-                  <span>{spot.indoor_outdoor ? `${spot.indoor_outdoor} Seating` : 'Indoor Aircon'}</span>
+                {/* Same matching text color text-[#1b2a22] for Indoor/Outdoor Seating */}
+                <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
+                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <span className="capitalize text-sm sm:text-base font-extrabold text-[#1b2a22]">
+                    {spot.indoor_outdoor ? `${spot.indoor_outdoor} Seating` : 'Indoor Aircon'}
+                  </span>
                 </div>
               </div>
             </div>
 
             {/* Section B: Videos and Photos */}
-            <div className="space-y-4 pt-4 border-t border-[#dce4e0]">
+            <div className="space-y-4 pt-4 border-t border-[#dce4e0] mt-auto">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-extrabold text-[#1b2a22]">Videos and Photos</h2>
-                <span className="text-xs font-bold text-[#76ab13]">Media Gallery</span>
+                <h2 className="text-2xl font-extrabold text-[#1b2a22]">Videos and Photos</h2>
+                <span className="text-xs sm:text-sm font-bold text-[#76ab13]">Media Gallery</span>
               </div>
 
               {/* Horizontal Scrollable Media Carousel */}
               <div className="relative">
-                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
+                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
                   {[
                     spot.cover_image_url || 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80',
                     'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80',
@@ -307,27 +316,26 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                   ].map((imgUrl, idx) => (
                     <div
                       key={idx}
-                      className="shrink-0 w-44 h-32 rounded-2xl overflow-hidden border border-[#c8e2a6] bg-[#eef3f0]"
+                      className="shrink-0 w-56 h-40 sm:w-64 sm:h-44 rounded-2xl overflow-hidden border border-[#c8e2a6] bg-[#eef3f0] group cursor-pointer shadow-sm hover:shadow-md transition"
                     >
                       <img
                         src={imgUrl}
                         alt={`Photo ${idx + 1}`}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                   ))}
-                  <div className="shrink-0 w-10 h-10 my-auto rounded-full bg-[#84bd19] text-white flex items-center justify-center cursor-pointer hover:bg-[#6f9f15] transition shadow-md">
-                    <ChevronRight className="w-6 h-6" />
+                  <div className="shrink-0 w-12 h-12 my-auto rounded-full bg-[#84bd19] text-white flex items-center justify-center cursor-pointer hover:bg-[#6f9f15] hover:scale-110 transition shadow-md">
+                    <ChevronRight className="w-7 h-7" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* RIGHT COLUMN SIDEBAR: Vibrant Matcha Green Contact Card */}
-          <div className="lg:col-span-5 bg-[#76ab13] text-white p-6 rounded-3xl shadow-xl space-y-6">
-            {/* Embedded Mini Map Preview (Query by Place Title + Address) */}
-            <div className="w-full h-44 rounded-2xl overflow-hidden border-2 border-white/40 relative bg-[#5f8a0f] shadow-md">
+          {/* RIGHT COLUMN SIDEBAR CARD: Contact Info & Map */}
+          <div className="lg:col-span-5 bg-[#76ab13] text-white p-7 rounded-3xl shadow-xl flex flex-col justify-between space-y-6 h-full">
+            <div className="w-full h-52 sm:h-56 rounded-2xl overflow-hidden border-2 border-white/40 relative bg-[#5f8a0f] shadow-md shrink-0">
               <iframe
                 title="Location Map"
                 width="100%"
@@ -339,60 +347,54 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               />
             </div>
 
-            {/* Contact Information List */}
-            <div className="space-y-4">
-              <h3 className="text-base font-extrabold text-white uppercase tracking-wider">
+            <div className="space-y-4 flex-1 flex flex-col justify-center">
+              <h3 className="text-base sm:text-lg font-extrabold text-white uppercase tracking-wider">
                 Contact Information
               </h3>
 
-              <div className="space-y-3.5 text-xs font-semibold text-white">
-                {/* Website */}
+              <div className="space-y-4 text-xs sm:text-sm font-semibold text-white">
                 <a
                   href={`https://maniluh.app/spot/${spot.id}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center space-x-3 text-white hover:underline transition"
+                  className="flex items-center space-x-3 text-white hover:underline transition group"
                 >
-                  <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <Globe className="w-4 h-4 text-white" />
                   </div>
                   <span className="underline truncate">maniluh.app/spot/{spot.id}</span>
-                  <ExternalLink className="w-3.5 h-3.5 shrink-0 ml-auto" />
+                  <ExternalLink className="w-4 h-4 shrink-0 ml-auto" />
                 </a>
 
-                {/* Email */}
                 <div className="flex items-center space-x-3">
-                  <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <Mail className="w-4 h-4 text-white" />
                   </div>
                   <span>contact@{spot.id.replace('spot-', '')}.ph</span>
                 </div>
 
-                {/* Phone */}
                 <div className="flex items-center space-x-3">
-                  <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                     <Phone className="w-4 h-4 text-white" />
                   </div>
                   <span>(02) 8323 - 3232</span>
                 </div>
 
-                {/* Google Maps Link (Human-readable Place Name query) */}
                 <a
                   href={googleMapsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center space-x-3 text-white hover:underline transition"
+                  className="flex items-center space-x-3 text-white hover:underline transition group"
                 >
-                  <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <MapPin className="w-4 h-4 text-white" />
                   </div>
                   <span className="truncate">Open in Google Maps ({spot.title})</span>
-                  <ExternalLink className="w-3.5 h-3.5 shrink-0 ml-auto" />
+                  <ExternalLink className="w-4 h-4 shrink-0 ml-auto" />
                 </a>
 
-                {/* Operating Hours */}
                 <div className="flex items-start space-x-3 pt-1">
-                  <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 mt-0.5">
                     <Clock className="w-4 h-4 text-white" />
                   </div>
                   <span className="leading-relaxed">
@@ -404,14 +406,13 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
           </div>
         </div>
 
-        {/* 3. MULTI-CATEGORY RATING BREAKDOWN CARD & SHADCN PAGINATED STUDENT REVIEWS */}
+        {/* 3. MULTI-CATEGORY RATING BREAKDOWN CARD */}
         <div className="space-y-6 pt-4">
-          {/* Top Rating Breakdown Card */}
-          <div className="bg-white border border-[#c8e2a6] p-6 rounded-3xl shadow-sm space-y-4 text-[#1b2a22]">
+          <div className="bg-white/80 backdrop-blur-md border border-white/80 p-6 rounded-3xl shadow-sm space-y-4 text-[#1b2a22]">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setIsSuggestEditOpen(!isSuggestEditOpen)}
-                className="flex items-center space-x-1.5 px-3 py-1 bg-[#76ab13] text-white text-xs font-bold rounded-xl shadow"
+                className="flex items-center space-x-1.5 px-3 py-1 bg-[#76ab13] text-white text-xs font-bold rounded-xl shadow hover:bg-[#5f8a0f] transition"
               >
                 <Edit3 className="w-3.5 h-3.5" />
                 <span>Suggest Edit</span>
@@ -421,8 +422,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               </span>
             </div>
 
-            {/* 3 Category Rating Columns */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#c8e2a6] pt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 divide-y sm:divide-y-0 sm:divide-x divide-[#c8e2a6] pt-2">
               <div className="flex flex-col items-center justify-center p-3 text-center space-y-1">
                 <span className="text-xs font-bold text-[#45690b]">Wi-Fi & Speed</span>
                 <div className="flex items-center space-x-2">
@@ -446,11 +446,18 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                   <span className="text-3xl font-extrabold text-[#1b2a22]">4.5</span>
                 </div>
               </div>
+
+              <div className="flex flex-col items-center justify-center p-3 text-center space-y-1 pt-3 sm:pt-0">
+                <span className="text-xs font-bold text-[#45690b]">Price & Value</span>
+                <div className="flex items-center space-x-2">
+                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <span className="text-3xl font-extrabold text-[#1b5e39]">4.9</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Student Reviews List Container */}
-          <div className="bg-white border border-[#c8e2a6] p-6 rounded-3xl shadow-sm space-y-6">
+          <div className="bg-white/80 backdrop-blur-md border border-white/80 p-6 rounded-3xl shadow-sm space-y-6">
             <div className="flex items-center justify-between pb-2 border-b border-[#c8e2a6]">
               <h2 className="text-xl font-extrabold text-[#1b2a22]">
                 Student Reviews & Testimonials
@@ -460,7 +467,6 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               </span>
             </div>
 
-            {/* Write a Review Form */}
             <form onSubmit={handleAddReview} className="flex gap-2">
               <input
                 type="text"
@@ -471,19 +477,17 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               />
               <button
                 type="submit"
-                className="px-4 py-2.5 bg-[#76ab13] hover:bg-[#5f8a0f] text-white font-extrabold rounded-xl text-xs flex items-center gap-1.5 transition shadow"
+                className="px-4 py-2.5 bg-[#76ab13] hover:bg-[#5f8a0f] text-white font-extrabold rounded-xl text-xs flex items-center gap-1.5 transition shadow active:scale-95"
               >
                 <Send className="w-4 h-4" /> Post Review
               </button>
             </form>
 
-            {/* Reviews List with Clean Dividers */}
             <div className="space-y-6">
               {currentReviews.map((rev, idx) => (
                 <React.Fragment key={rev.id}>
                   {idx > 0 && <hr className="border-[#c8e2a6]" />}
                   <div className="space-y-3">
-                    {/* Top Date & Star Rating */}
                     <div className="flex items-center justify-between text-xs text-[#45690b]">
                       <span className="font-semibold">{rev.date}</span>
                       <div className="flex items-center space-x-1">
@@ -500,7 +504,6 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                       </div>
                     </div>
 
-                    {/* User Avatar + Name + Role */}
                     <div className="flex items-center space-x-3">
                       <div
                         className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs shadow-sm ${rev.avatarBg}`}
@@ -513,12 +516,10 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                       </div>
                     </div>
 
-                    {/* Review Body */}
                     <p className="text-xs sm:text-sm text-[#1b2a22] leading-relaxed font-medium pt-1">
                       {rev.comment}
                     </p>
 
-                    {/* Upvotes / Downvotes */}
                     <div className="flex items-center space-x-4 pt-1 text-xs text-[#45690b]">
                       <button
                         onClick={() => handleVote(rev.id, true)}
@@ -540,7 +541,6 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               ))}
             </div>
 
-            {/* 🔢 OFFICIAL SHADCN UI PAGINATION COMPONENT */}
             <div className="pt-4 border-t border-[#c8e2a6]">
               <Pagination>
                 <PaginationContent>

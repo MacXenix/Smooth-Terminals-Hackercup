@@ -24,7 +24,7 @@ import imgCloudscape from '../assets/Images/Study Hub/Cloudscape study hub.jpeg'
 // 🏛️ The 12 Manila University Campus Anchor Landmarks (Exact Pinpoint GPS)
 export const MANILA_UNIVERSITIES: UniversityLandmark[] = [
   { id: 'uni-upm', name: 'University of the Philippines Manila', shortCode: 'UPM', lat: 14.57913, lng: 120.98342, city: 'Manila' },
-  { id: 'uni-ust', name: 'University of Santo Tomas', shortCode: 'UST', lat: 14.6059, lng: 120.9869, city: 'Manila' },
+  { id: 'uni-ust', name: 'University of Santo Tomas', shortCode: 'UST', lat: 14.61028, lng: 120.98917, city: 'Manila' },
   { id: 'uni-dlsu', name: 'De La Salle University Manila', shortCode: 'DLSU', lat: 14.5649, lng: 120.9931, city: 'Manila' },
   { id: 'uni-feu', name: 'Far Eastern University Manila', shortCode: 'FEU', lat: 14.6038, lng: 120.9855, city: 'Manila' },
   { id: 'uni-ue', name: 'University of the East Manila', shortCode: 'UE', lat: 14.6019, lng: 120.9895, city: 'Manila' },

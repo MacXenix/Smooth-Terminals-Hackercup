@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import type { ThirdSpace, UniversityLandmark } from '../lib/supabase';
 import { MANILA_UNIVERSITIES } from '../lib/mockData';
 import { ManilaMap } from './Map';
+import logoImg from '../assets/logo.png';
 import {
   Search,
   Coffee,
@@ -12,8 +13,6 @@ import {
   Zap,
   MapPin,
   ChevronRight,
-  Sparkles,
-  Map as MapIcon,
   GraduationCap,
   ChevronDown,
   Check,
@@ -23,6 +22,12 @@ import {
   CheckCircle2,
   Lock,
   Eye,
+  Bell,
+  User,
+  Sparkles,
+  ShieldCheck,
+  ArrowUpRight,
+  Tag,
 } from 'lucide-react';
 
 interface MainPageProps {
@@ -45,7 +50,7 @@ export const MainPage: React.FC<MainPageProps> = ({
   // "More Filters" Centered Dialog Modal State
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [extraFilters, setExtraFilters] = useState({
-    priceRange: 'all', // 'all', 'Free', '₱', '₱₱'
+    priceRange: 'all',
     wifiOnly: false,
     outletsOnly: false,
     freeOnly: false,
@@ -55,7 +60,7 @@ export const MainPage: React.FC<MainPageProps> = ({
     has360Only: false,
   });
 
-  // 4 Main Categories
+  // 4 Main Categories matching user wireframe icons
   const MAIN_CATEGORIES = [
     { id: 'cafe', label: 'Cafe', icon: Coffee },
     { id: 'library', label: 'Library', icon: BookOpen },
@@ -140,40 +145,95 @@ export const MainPage: React.FC<MainPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f7f4] text-[#1b2a22] font-sans pb-12">
-      {/* Hero & Search Header Section */}
-      <section className="relative px-4 pt-10 pb-6 max-w-5xl mx-auto text-center space-y-6">
-        <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#eef3f0] border border-[#dce4e0] text-xs font-semibold text-[#586b61]">
-          <Sparkles className="w-3.5 h-3.5 text-[#567b66]" />
-          <span>Student Third Space & Manila Livability Directory</span>
-        </div>
-
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#1b2a22] leading-tight">
-          Find Your Perfect <span className="text-[#567b66]">Study Space</span> & Kainan
-        </h1>
-
-        {/* Subtitle Text Below Title */}
-        <p className="text-sm sm:text-base text-[#586b61] max-w-2xl mx-auto font-medium leading-relaxed">
-          Discover quiet cafes, free libraries, budget food spots, and study hubs around Manila universities (UPM, UST, DLSU, FEU, PUP, Mapúa, etc.).
-        </p>
-
-        {/* Global Search Bar */}
-        <div className="relative max-w-2xl mx-auto shadow-md">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#567b66]">
-            <Search className="w-5 h-5" />
+    <div className="min-h-screen bg-[#e8f5d6] text-[#1b2a22] font-sans pb-12">
+      {/* 1. PERFECTLY VERTICALLY CENTERED BRANDING HEADER BAR */}
+      <header className="sticky top-0 z-40 bg-white/65 backdrop-blur-xl border-b border-white/50 px-4 py-2.5 shadow-sm transition-all duration-300">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div
+            onClick={resetAllFilters}
+            className="flex items-center space-x-3 group cursor-pointer my-auto"
+          >
+            <img
+              src={logoImg}
+              alt="ALTSpaces Logo"
+              className="w-12 h-12 sm:w-14 sm:h-14 object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300 shrink-0"
+            />
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1b5e39] font-sans group-hover:scale-105 transition-transform duration-300 leading-none">
+              ALTSpaces
+            </h1>
           </div>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search study spots, Wi-Fi, UPM, UST, budget kainan..."
-            className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#dce4e0] rounded-2xl text-sm text-[#1b2a22] placeholder-[#586b61]/60 focus:outline-none focus:ring-2 focus:ring-[#567b66] focus:border-transparent transition shadow-sm"
-          />
+
+          <div className="flex items-center space-x-2.5 my-auto">
+            <button
+              aria-label="Notifications"
+              className="w-9 h-9 rounded-xl bg-white/70 backdrop-blur-md border border-white/60 hover:border-[#1b5e39] hover:bg-white hover:-translate-y-0.5 hover:scale-105 shadow-sm hover:shadow-md flex items-center justify-center text-[#1b2a22] transition-all duration-200 group"
+            >
+              <Bell className="w-4 h-4 text-[#1b5e39] group-hover:rotate-12 transition-transform duration-300" />
+            </button>
+            <button
+              aria-label="User Profile"
+              className="w-9 h-9 rounded-xl bg-white/70 backdrop-blur-md border border-white/60 hover:border-[#1b5e39] hover:bg-white hover:-translate-y-0.5 hover:scale-105 shadow-sm hover:shadow-md flex items-center justify-center text-[#1b2a22] transition-all duration-200 group"
+            >
+              <User className="w-4 h-4 text-[#1b5e39] group-hover:scale-110 transition-transform duration-300" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* 2. HERO SAGE GREEN BANNER */}
+      <section className="max-w-6xl mx-auto px-4 relative pt-4 pb-10">
+        <div className="relative bg-gradient-to-br from-[#237046] via-[#1b5e39] to-[#0f3c23] text-white rounded-3xl p-8 sm:p-14 text-center shadow-2xl overflow-hidden flex flex-col items-center justify-center min-h-[260px] border border-white/30 group">
+          <div className="absolute -top-16 -left-16 w-60 h-60 bg-white/15 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#84bd19]/25 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700 pointer-events-none" />
+
+          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-lg border border-white/30 text-xs font-bold text-emerald-100 mb-4 shadow-sm hover:bg-white/25 transition-colors cursor-default">
+            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+            <span>Manila Student Third Space Directory</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-sm max-w-2xl">
+            Find your <span className="text-[#b5d354]">Study Place</span>
+          </h2>
+
+          <p className="text-xs sm:text-sm text-emerald-100/90 max-w-xl mx-auto font-medium leading-relaxed mt-2">
+            Discover quiet cafes, free public libraries, 24/7 study hubs, & budget food spots around UPM, UST, DLSU, FEU, PUP, & Intramuros.
+          </p>
+
+          <div className="flex items-center justify-center gap-3 sm:gap-6 pt-5 text-[11px] font-bold text-white/95">
+            <div className="flex items-center space-x-1.5 bg-white/15 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/25 shadow-sm hover:bg-white/25 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+              <span>🏛️</span>
+              <span>12 Manila Campuses</span>
+            </div>
+            <div className="flex items-center space-x-1.5 bg-white/15 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/25 shadow-sm hover:bg-white/25 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+              <Zap className="w-3.5 h-3.5 text-amber-300" />
+              <span>Sockets & Wi-Fi</span>
+            </div>
+            <div className="flex items-center space-x-1.5 bg-white/15 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/25 shadow-sm hover:bg-white/25 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+              <span>Student Verified</span>
+            </div>
+          </div>
         </div>
 
-        {/* Filter Toolbar Row: Category Pills + Campus Dropdown + More Filters Button */}
-        <div className="pt-2 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
-          {/* 4 Main Category Pills */}
+        {/* Floating Overlapping Search Bar */}
+        <div className="relative -mt-7 max-w-xl mx-auto z-20 px-2">
+          <div className="relative shadow-2xl rounded-2xl bg-white/85 backdrop-blur-xl border border-white/80 hover:border-[#1b5e39] hover:shadow-emerald-900/10 transition-all duration-300">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search quiet cafes, Wi-Fi speed, UST, UPM, budget kainan..."
+              className="w-full pl-6 pr-12 py-3.5 bg-transparent text-sm text-[#1b2a22] placeholder-[#45690b]/60 focus:outline-none focus:ring-2 focus:ring-[#1b5e39] rounded-2xl transition"
+            />
+            <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[#45690b]">
+              <span className="text-xs text-[#45690b] font-semibold mr-1">Search</span>
+              <Search className="w-4 h-4 text-[#1b5e39]" />
+            </div>
+          </div>
+        </div>
+
+        {/* 3. CATEGORY TOOLBAR */}
+        <div className="pt-6 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
           {MAIN_CATEGORIES.map((cat) => {
             const Icon = cat.icon;
             const isSelected = activeCategory === cat.id;
@@ -181,10 +241,10 @@ export const MainPage: React.FC<MainPageProps> = ({
               <button
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat.id)}
-                className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 border ${
+                className={`flex items-center space-x-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-200 border shadow-sm backdrop-blur-md active:scale-95 ${
                   isSelected
-                    ? 'bg-[#567b66] text-white border-[#567b66] shadow-md scale-105'
-                    : 'bg-white text-[#1b2a22] border-[#dce4e0] hover:border-[#567b66] hover:bg-[#eef3f0]'
+                    ? 'bg-[#1b5e39] text-white border-[#1b5e39] shadow-md scale-105'
+                    : 'bg-white/70 text-[#1b5e39] border-white/60 hover:bg-[#1b5e39] hover:text-white hover:border-[#1b5e39] hover:-translate-y-0.5 hover:shadow-md'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -193,29 +253,33 @@ export const MainPage: React.FC<MainPageProps> = ({
             );
           })}
 
-          {/* 🏛️ Searchable Campus Dropdown Selector */}
+          {/* 🏛️ Searchable Campus Dropdown */}
           <div className="relative">
             <button
               onClick={() => setIsUniDropdownOpen(!isUniDropdownOpen)}
-              className="px-3.5 py-2 bg-white border border-[#dce4e0] hover:border-[#567b66] rounded-xl text-xs sm:text-sm font-bold text-[#1b2a22] flex items-center space-x-2 shadow-sm transition"
+              className={`px-4 py-2.5 border rounded-2xl text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-sm transition-all duration-200 backdrop-blur-md active:scale-95 ${
+                selectedUniversity
+                  ? 'bg-[#1b5e39] text-white border-[#1b5e39]'
+                  : 'bg-white/70 text-[#1b5e39] border-white/60 hover:border-[#1b5e39] hover:bg-[#1b5e39] hover:text-white hover:-translate-y-0.5'
+              }`}
             >
-              <GraduationCap className="w-4 h-4 text-[#567b66]" />
+              <GraduationCap className="w-4 h-4" />
               <span className="max-w-[140px] truncate">
                 {selectedUniversity ? selectedUniversity.shortCode : 'All Campuses'}
               </span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#586b61]" />
+              <ChevronDown className="w-3.5 h-3.5" />
             </button>
 
-            {/* Dropdown Modal */}
+            {/* Dropdown Glass Modal */}
             {isUniDropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-white border border-[#dce4e0] rounded-2xl shadow-2xl z-50 p-2 space-y-2 text-left animate-in fade-in zoom-in-95 duration-200">
+              <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-white/90 backdrop-blur-2xl border border-white/80 rounded-2xl shadow-2xl z-50 p-2 space-y-2 text-left animate-in fade-in zoom-in-95 duration-200">
                 <div className="px-2 pt-1">
                   <input
                     type="text"
                     value={uniSearchText}
                     onChange={(e) => setUniSearchText(e.target.value)}
                     placeholder="Search Manila campus name..."
-                    className="w-full px-3 py-2 bg-[#f8f7f4] border border-[#dce4e0] rounded-xl text-xs text-[#1b2a22] focus:outline-none focus:ring-1 focus:ring-[#567b66]"
+                    className="w-full px-3 py-2 bg-[#e8f5d6]/50 border border-[#c8e2a6] rounded-xl text-xs text-[#1b2a22] focus:outline-none focus:ring-1 focus:ring-[#1b5e39]"
                     autoFocus
                   />
                 </div>
@@ -225,12 +289,12 @@ export const MainPage: React.FC<MainPageProps> = ({
                     onClick={() => handleSelectUniversity(null)}
                     className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-between ${
                       !selectedUniversity
-                        ? 'bg-[#eef3f0] text-[#567b66]'
-                        : 'text-[#1b2a22] hover:bg-[#f8f7f4]'
+                        ? 'bg-[#e8f5d6] text-[#1b5e39]'
+                        : 'text-[#1b2a22] hover:bg-[#e8f5d6]/50'
                     }`}
                   >
                     <span>🏛️ All Manila Campuses</span>
-                    {!selectedUniversity && <Check className="w-3.5 h-3.5 text-[#567b66]" />}
+                    {!selectedUniversity && <Check className="w-3.5 h-3.5 text-[#1b5e39]" />}
                   </button>
 
                   {filteredUniversities.map((uni) => {
@@ -241,15 +305,15 @@ export const MainPage: React.FC<MainPageProps> = ({
                         onClick={() => handleSelectUniversity(uni)}
                         className={`w-full text-left px-3 py-2 rounded-xl text-xs transition flex items-center justify-between ${
                           isSelected
-                            ? 'bg-[#eef3f0] text-[#567b66] font-bold'
-                            : 'text-[#1b2a22] hover:bg-[#f8f7f4]'
+                            ? 'bg-[#e8f5d6] text-[#1b5e39] font-bold'
+                            : 'text-[#1b2a22] hover:bg-[#e8f5d6]/50'
                         }`}
                       >
                         <div className="truncate">
-                          <span className="font-bold mr-1.5 text-amber-700">[{uni.shortCode}]</span>
+                          <span className="font-bold mr-1.5 text-amber-800">[{uni.shortCode}]</span>
                           <span>{uni.name}</span>
                         </div>
-                        {isSelected && <Check className="w-3.5 h-3.5 text-[#567b66] shrink-0" />}
+                        {isSelected && <Check className="w-3.5 h-3.5 text-[#1b5e39] shrink-0" />}
                       </button>
                     );
                   })}
@@ -258,15 +322,19 @@ export const MainPage: React.FC<MainPageProps> = ({
             )}
           </div>
 
-          {/* 🎛️ "More Filters" Button */}
+          {/* 🎛️ Glassmorphism Filters Button */}
           <button
             onClick={() => setIsFilterModalOpen(true)}
-            className="px-3.5 py-2 bg-white border border-[#dce4e0] hover:border-[#567b66] rounded-xl text-xs sm:text-sm font-bold text-[#1b2a22] flex items-center space-x-2 shadow-sm transition"
+            className={`px-4 py-2.5 border rounded-2xl text-xs sm:text-sm font-bold flex items-center space-x-2 shadow-sm transition-all duration-200 backdrop-blur-md active:scale-95 ${
+              activeExtraFilterCount > 0
+                ? 'bg-[#1b5e39] text-white border-[#1b5e39]'
+                : 'bg-white/70 text-[#1b5e39] border-white/60 hover:border-[#1b5e39] hover:bg-[#1b5e39] hover:text-white hover:-translate-y-0.5'
+            }`}
           >
-            <SlidersHorizontal className="w-4 h-4 text-[#567b66]" />
+            <SlidersHorizontal className="w-4 h-4" />
             <span>Filters</span>
             {activeExtraFilterCount > 0 && (
-              <span className="bg-[#567b66] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+              <span className="bg-white text-[#1b5e39] text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-extrabold">
                 {activeExtraFilterCount}
               </span>
             )}
@@ -276,17 +344,16 @@ export const MainPage: React.FC<MainPageProps> = ({
 
       {/* 🎛️ CENTERED DIALOG FILTER MODAL */}
       {isFilterModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-          {/* Centered Dialog Box */}
-          <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-[#dce4e0] p-6 space-y-6 text-[#1b2a22] animate-in zoom-in-95 duration-200 max-h-[85vh] overflow-y-auto scrollbar-thin">
-            <div className="flex items-center justify-between pb-4 border-b border-[#dce4e0]">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="w-full max-w-lg bg-white/90 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/80 p-6 space-y-6 text-[#1b2a22] animate-in zoom-in-95 duration-200 max-h-[85vh] overflow-y-auto scrollbar-thin">
+            <div className="flex items-center justify-between pb-4 border-b border-[#c8e2a6]">
               <div className="flex items-center space-x-2">
-                <SlidersHorizontal className="w-5 h-5 text-[#567b66]" />
+                <SlidersHorizontal className="w-5 h-5 text-[#1b5e39]" />
                 <h2 className="text-xl font-extrabold">Filter Student Spaces</h2>
               </div>
               <button
                 onClick={() => setIsFilterModalOpen(false)}
-                className="p-1.5 rounded-full hover:bg-[#f8f7f4] text-[#586b61] transition"
+                className="p-1.5 rounded-full hover:bg-[#e8f5d6]/50 text-[#45690b] transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -294,7 +361,7 @@ export const MainPage: React.FC<MainPageProps> = ({
 
             {/* Price Filter */}
             <div className="space-y-2">
-              <h3 className="text-xs font-bold text-[#586b61] uppercase tracking-wider">
+              <h3 className="text-xs font-bold text-[#45690b] uppercase tracking-wider">
                 Price Category
               </h3>
               <div className="grid grid-cols-4 gap-2 text-xs">
@@ -302,10 +369,10 @@ export const MainPage: React.FC<MainPageProps> = ({
                   <button
                     key={pr}
                     onClick={() => setExtraFilters((prev) => ({ ...prev, priceRange: pr }))}
-                    className={`py-2 rounded-xl font-bold border transition ${
+                    className={`py-2 rounded-xl font-bold border transition-all duration-200 ${
                       extraFilters.priceRange === pr
-                        ? 'bg-[#567b66] text-white border-[#567b66]'
-                        : 'bg-[#f8f7f4] text-[#1b2a22] border-[#dce4e0] hover:border-[#567b66]'
+                        ? 'bg-[#1b5e39] text-white border-[#1b5e39]'
+                        : 'bg-[#e8f5d6]/40 text-[#1b2a22] border-[#c8e2a6] hover:border-[#1b5e39] hover:bg-[#e8f5d6]'
                     }`}
                   >
                     {pr === 'all' ? 'Any' : pr}
@@ -314,13 +381,13 @@ export const MainPage: React.FC<MainPageProps> = ({
               </div>
             </div>
 
-            {/* Essential Student Amenities */}
+            {/* Amenities */}
             <div className="space-y-3">
-              <h3 className="text-xs font-bold text-[#586b61] uppercase tracking-wider">
+              <h3 className="text-xs font-bold text-[#45690b] uppercase tracking-wider">
                 Student Amenities & Essentials
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                <label className="flex items-center justify-between p-3 rounded-xl border border-[#dce4e0] hover:bg-[#f8f7f4] cursor-pointer transition">
+                <label className="flex items-center justify-between p-3 rounded-xl border border-[#c8e2a6] hover:bg-[#e8f5d6]/50 cursor-pointer transition-all duration-200 hover:-translate-y-0.5">
                   <div className="flex items-center space-x-2">
                     <Wifi className="w-4 h-4 text-sky-600" />
                     <span className="font-bold">Fast Wi-Fi</span>
@@ -329,11 +396,11 @@ export const MainPage: React.FC<MainPageProps> = ({
                     type="checkbox"
                     checked={extraFilters.wifiOnly}
                     onChange={(e) => setExtraFilters((prev) => ({ ...prev, wifiOnly: e.target.checked }))}
-                    className="accent-[#567b66] w-4 h-4"
+                    className="accent-[#1b5e39] w-4 h-4"
                   />
                 </label>
 
-                <label className="flex items-center justify-between p-3 rounded-xl border border-[#dce4e0] hover:bg-[#f8f7f4] cursor-pointer transition">
+                <label className="flex items-center justify-between p-3 rounded-xl border border-[#c8e2a6] hover:bg-[#e8f5d6]/50 cursor-pointer transition-all duration-200 hover:-translate-y-0.5">
                   <div className="flex items-center space-x-2">
                     <Zap className="w-4 h-4 text-amber-600" />
                     <span className="font-bold">Power Outlets</span>
@@ -342,11 +409,11 @@ export const MainPage: React.FC<MainPageProps> = ({
                     type="checkbox"
                     checked={extraFilters.outletsOnly}
                     onChange={(e) => setExtraFilters((prev) => ({ ...prev, outletsOnly: e.target.checked }))}
-                    className="accent-[#567b66] w-4 h-4"
+                    className="accent-[#1b5e39] w-4 h-4"
                   />
                 </label>
 
-                <label className="flex items-center justify-between p-3 rounded-xl border border-[#dce4e0] hover:bg-[#f8f7f4] cursor-pointer transition">
+                <label className="flex items-center justify-between p-3 rounded-xl border border-[#c8e2a6] hover:bg-[#e8f5d6]/50 cursor-pointer transition-all duration-200 hover:-translate-y-0.5">
                   <div className="flex items-center space-x-2">
                     <Clock className="w-4 h-4 text-indigo-600" />
                     <span className="font-bold">Open 24/7</span>
@@ -355,11 +422,11 @@ export const MainPage: React.FC<MainPageProps> = ({
                     type="checkbox"
                     checked={extraFilters.is247}
                     onChange={(e) => setExtraFilters((prev) => ({ ...prev, is247: e.target.checked }))}
-                    className="accent-[#567b66] w-4 h-4"
+                    className="accent-[#1b5e39] w-4 h-4"
                   />
                 </label>
 
-                <label className="flex items-center justify-between p-3 rounded-xl border border-[#dce4e0] hover:bg-[#f8f7f4] cursor-pointer transition">
+                <label className="flex items-center justify-between p-3 rounded-xl border border-[#c8e2a6] hover:bg-[#e8f5d6]/50 cursor-pointer transition-all duration-200 hover:-translate-y-0.5">
                   <div className="flex items-center space-x-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     <span className="font-bold">100% Free Entry</span>
@@ -368,24 +435,24 @@ export const MainPage: React.FC<MainPageProps> = ({
                     type="checkbox"
                     checked={extraFilters.freeOnly}
                     onChange={(e) => setExtraFilters((prev) => ({ ...prev, freeOnly: e.target.checked }))}
-                    className="accent-[#567b66] w-4 h-4"
+                    className="accent-[#1b5e39] w-4 h-4"
                   />
                 </label>
 
-                <label className="flex items-center justify-between p-3 rounded-xl border border-[#dce4e0] hover:bg-[#f8f7f4] cursor-pointer transition">
+                <label className="flex items-center justify-between p-3 rounded-xl border border-[#c8e2a6] hover:bg-[#e8f5d6]/50 cursor-pointer transition-all duration-200 hover:-translate-y-0.5">
                   <div className="flex items-center space-x-2">
-                    <Lock className="w-4 h-4 text-purple-600" />
+                    <Lock className="w-4 h-4 text-[#1b5e39]" />
                     <span className="font-bold">Needs Student ID</span>
                   </div>
                   <input
                     type="checkbox"
                     checked={extraFilters.needsId}
                     onChange={(e) => setExtraFilters((prev) => ({ ...prev, needsId: e.target.checked }))}
-                    className="accent-[#567b66] w-4 h-4"
+                    className="accent-[#1b5e39] w-4 h-4"
                   />
                 </label>
 
-                <label className="flex items-center justify-between p-3 rounded-xl border border-[#dce4e0] hover:bg-[#f8f7f4] cursor-pointer transition">
+                <label className="flex items-center justify-between p-3 rounded-xl border border-[#c8e2a6] hover:bg-[#e8f5d6]/50 cursor-pointer transition-all duration-200 hover:-translate-y-0.5">
                   <div className="flex items-center space-x-2">
                     <Eye className="w-4 h-4 text-rose-600" />
                     <span className="font-bold">360° Virtual Tour</span>
@@ -394,23 +461,23 @@ export const MainPage: React.FC<MainPageProps> = ({
                     type="checkbox"
                     checked={extraFilters.has360Only}
                     onChange={(e) => setExtraFilters((prev) => ({ ...prev, has360Only: e.target.checked }))}
-                    className="accent-[#567b66] w-4 h-4"
+                    className="accent-[#1b5e39] w-4 h-4"
                   />
                 </label>
               </div>
             </div>
 
             {/* Modal Bottom Action Buttons */}
-            <div className="pt-4 border-t border-[#dce4e0] flex items-center justify-between">
+            <div className="pt-4 border-t border-[#c8e2a6] flex items-center justify-between">
               <button
                 onClick={resetAllFilters}
-                className="text-xs font-bold text-[#586b61] hover:underline"
+                className="text-xs font-bold text-[#45690b] hover:underline"
               >
                 Reset All Filters
               </button>
               <button
                 onClick={() => setIsFilterModalOpen(false)}
-                className="px-6 py-2.5 bg-[#567b66] text-white rounded-xl text-xs font-extrabold shadow hover:bg-[#466654]"
+                className="px-6 py-2.5 bg-[#1b5e39] text-[#e8f5d6] rounded-xl text-xs font-extrabold shadow hover:bg-[#154b2d] active:scale-95 transition-transform"
               >
                 Show {filteredSpots.length} Spots
               </button>
@@ -419,76 +486,81 @@ export const MainPage: React.FC<MainPageProps> = ({
         </div>
       )}
 
-      {/* 🎠 Scrollable Featured Places Carousel */}
+      {/* 🎠 SCROLLABLE FEATURED PLACES CAROUSEL */}
       <section className="max-w-6xl mx-auto px-4 py-4 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl font-extrabold text-[#1b2a22]">Featured Places & Study Spots</h2>
-            <p className="text-xs text-[#586b61]">Swipe horizontally to explore top Manila student spots</p>
+            <p className="text-xs text-[#45690b] font-medium">Swipe horizontally to explore top Manila student spots</p>
           </div>
-          <span className="text-xs font-bold text-[#567b66] flex items-center gap-1 cursor-pointer hover:underline">
-            View All ({filteredSpots.length}) <ChevronRight className="w-4 h-4" />
+          <span className="text-xs font-bold text-[#1b5e39] flex items-center gap-1 cursor-pointer hover:underline group">
+            View All ({filteredSpots.length}) <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </span>
         </div>
 
         {/* Horizontal Scrollable Carousel Container */}
-        <div className="flex gap-4 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-[#dce4e0] scrollbar-track-transparent">
+        <div className="flex gap-4 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-[#c8e2a6] scrollbar-track-transparent">
           {filteredSpots.map((spot) => (
             <div
               key={spot.id}
               onClick={() => onSelectSpot(spot)}
-              className="snap-start shrink-0 w-72 sm:w-80 bg-white border border-[#dce4e0] hover:border-[#567b66] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 transform hover:-translate-y-1 shadow-sm hover:shadow-md group flex flex-col justify-between"
+              className="snap-start shrink-0 w-72 sm:w-80 bg-white/75 backdrop-blur-md border border-white/80 hover:border-[#1b5e39] rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 transform hover:-translate-y-2 shadow-md hover:shadow-2xl hover:bg-white/95 group flex flex-col justify-between"
             >
               <div>
                 {/* Image Cover */}
-                <div className="relative h-44 w-full bg-[#eef3f0] overflow-hidden">
+                <div className="relative h-44 w-full bg-[#e8f5d6]/50 overflow-hidden">
                   <img
                     src={
                       spot.cover_image_url ||
                       'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80'
                     }
                     alt={spot.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-[#567b66] uppercase tracking-wider border border-[#dce4e0] shadow-sm">
+                  <div className="absolute top-3 left-3 bg-white/85 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-extrabold text-[#1b5e39] uppercase tracking-wider border border-white/60 shadow-sm group-hover:bg-[#1b5e39] group-hover:text-white transition-colors">
                     {spot.category}
                   </div>
-                  <div className="absolute top-3 right-3 bg-[#567b66] text-white px-2 py-0.5 rounded-lg text-xs font-bold shadow">
-                    {spot.price_range}
+                  <div className="absolute top-3 right-3 bg-[#1b5e39] text-white px-2.5 py-0.5 rounded-lg text-xs font-bold shadow group-hover:scale-105 transition-transform flex items-center gap-1">
+                    <Tag className="w-3 h-3 text-amber-300" />
+                    <span>{spot.price_range}</span>
                   </div>
                 </div>
 
                 {/* Content Details */}
                 <div className="p-4 space-y-2">
-                  <h3 className="text-base font-bold text-[#1b2a22] group-hover:text-[#567b66] transition-colors truncate">
-                    {spot.title}
+                  <h3 className="text-base font-bold text-[#1b2a22] group-hover:text-[#1b5e39] transition-colors truncate flex items-center justify-between">
+                    <span className="truncate">{spot.title}</span>
+                    <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all text-[#1b5e39] shrink-0 ml-1" />
                   </h3>
-                  <p className="text-xs text-[#586b61] line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-[#45690b] line-clamp-2 leading-relaxed font-medium">
                     {spot.description}
                   </p>
-                  <p className="text-xs text-[#586b61]/80 flex items-center gap-1 pt-1 truncate font-medium">
-                    <MapPin className="w-3 h-3 text-[#567b66] shrink-0" />
+                  <p className="text-xs text-[#45690b]/90 flex items-center gap-1 pt-1 truncate font-semibold">
+                    <MapPin className="w-3 h-3 text-[#1b5e39] shrink-0" />
                     {spot.address}
                   </p>
                 </div>
               </div>
 
-              {/* Footer Badges */}
-              <div className="px-4 pb-4 pt-2 border-t border-[#dce4e0]/70 flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2">
+              {/* Footer Badges with Price Value Numerical Rating */}
+              <div className="px-4 pb-4 pt-2 border-t border-[#c8e2a6]/60 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   {spot.has_wifi && (
-                    <span className="flex items-center gap-1 text-[11px] text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-200 font-medium">
+                    <span className="flex items-center gap-1 text-[11px] text-sky-800 bg-sky-50/80 backdrop-blur-sm px-2 py-0.5 rounded-md border border-sky-200 font-medium">
                       <Wifi className="w-3 h-3 text-sky-600" /> Wi-Fi
                     </span>
                   )}
                   {spot.has_outlets && (
-                    <span className="flex items-center gap-1 text-[11px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 font-medium">
+                    <span className="flex items-center gap-1 text-[11px] text-amber-800 bg-amber-50/80 backdrop-blur-sm px-2 py-0.5 rounded-md border border-amber-200 font-medium">
                       <Zap className="w-3 h-3 text-amber-600" /> Outlets
                     </span>
                   )}
+                  <span className="flex items-center gap-1 text-[11px] text-emerald-900 bg-emerald-100/90 backdrop-blur-sm px-2 py-0.5 rounded-md border border-emerald-300 font-bold">
+                    🌼 4.9 Value
+                  </span>
                 </div>
-                <span className="text-xs font-bold text-[#567b66] group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
-                  View Details <ChevronRight className="w-3.5 h-3.5" />
+                <span className="text-xs font-bold text-[#1b5e39] group-hover:translate-x-1.5 transition-transform flex items-center gap-0.5 shrink-0 ml-1">
+                  View <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
             </div>
@@ -500,13 +572,13 @@ export const MainPage: React.FC<MainPageProps> = ({
       <section className="max-w-6xl mx-auto px-4 py-6 space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-extrabold text-[#1b2a22] flex items-center gap-2">
-            <MapIcon className="w-5 h-5 text-[#567b66]" /> Metro Manila University Landmarks & Pinpoint Map
+            <span>🗺️</span> Metro Manila University Landmarks & Pinpoint Map
           </h2>
-          <span className="text-xs font-semibold text-[#586b61]">
+          <span className="text-xs font-semibold text-[#45690b]">
             Click any pin to inspect details
           </span>
         </div>
-        <div className="w-full">
+        <div className="w-full rounded-3xl overflow-hidden shadow-lg border border-white/80 hover:shadow-xl transition-shadow">
           <ManilaMap
             spots={filteredSpots}
             onSelectSpot={onSelectSpot}
