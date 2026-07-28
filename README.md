@@ -5,8 +5,8 @@
 <h1 align="center">🌿 ALTSpaces</h1>
 
 <p align="center">
-  <strong>Alternative Third Spaces for Manila Students</strong><br />
-  Discover, rate, and navigate authentic third spaces — cafes, public libraries, budget kainans, and 24/7 study hubs — across the University Belt, Taft Avenue, Intramuros, and Ermita.
+  <strong>Alternative Third Places for Manila Students</strong><br />
+  Discover, rate, and navigate authentic third places — cafes, public libraries, budget kainans, and 24/7 study hubs — across the University Belt, Taft Avenue, Intramuros, and Ermita.
 </p>
 
 <p align="center">
@@ -40,7 +40,7 @@ For over 300,000 students studying across Metro Manila's University Belt (UST, U
 
 ## 💡 The Solution
 
-**ALTSpaces** is a community-driven, student-first directory and map platform tailored specifically for Manila students. It bridges the gap by connecting students to affordable, accessible, and high-quality alternative "third spaces."
+**ALTSpaces** is a community-driven, student-first directory and map platform tailored specifically for Manila students. It bridges the gap by connecting students to affordable, accessible, and high-quality alternative "third place."
 
 ---
 
@@ -76,7 +76,7 @@ For over 300,000 students studying across Metro Manila's University Belt (UST, U
 * ![MapLibre](https://img.shields.io/badge/MapLibre_GL-52A55F?style=flat-square&logo=maplibre&logoColor=white) **MapLibre GL & MapTiler API** (Custom Vector Tiles & Smoothed Marker Transforms)
 
 ### **Backend, Database & Storage**
-* ![Supabase](https://img.shields.io/badge/Supabase_PostgreSQL-3ECF8E?style=flat-square&logo=supabase&logoColor=white) **Supabase PostgreSQL Database** (Live data synchronization for third spaces & student reviews)
+* ![Supabase](https://img.shields.io/badge/Supabase_PostgreSQL-3ECF8E?style=flat-square&logo=supabase&logoColor=white) **Supabase PostgreSQL Database** (Live data synchronization for third places & student reviews)
 * 🪣 **Supabase Storage (`altspaces-media`)** (Public bucket for spot photos & user media)
 * 🔒 **Supabase Row Level Security (RLS)** (Secure public read & student insert policies)
 * 🔄 **Offline Fallback Engine** (Gracefully serves built-in local datasets if database credentials are not active)
@@ -90,7 +90,7 @@ For over 300,000 students studying across Metro Manila's University Belt (UST, U
 | 📊 **Real-time Occupancy Tracker** | Crowd-sourced live indicator showing whether a spot is "Quiet", "Getting Busy", or "Fully Occupied". | 85%+ accuracy on live crowd reports |
 | 🏷️ **Verified Student Perks** | Partner with local independent cafes to offer student discounts via verified `.edu.ph` emails or student IDs. | 20+ participating local partners in Manila |
 | 📱 **Mobile PWA & Offline Cache** | Progressive Web App enabling offline map access and location push alerts when near free study spots. | < 1 second offline map load time |
-| 🌐 **Regional University Belt Expansion** | Expand coverage beyond Manila to Katipunan (Ateneo/UP Diliman), U-Belt QC, Cebu, and Davao. | 100+ verified campus third spaces |
+| 🌐 **Regional University Belt Expansion** | Expand coverage beyond Manila to Katipunan (Ateneo/UP Diliman), U-Belt QC, Cebu, and Davao. | 100+ verified campus third places |
 
 ---
 
