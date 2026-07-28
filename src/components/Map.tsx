@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import * as maptilersdk from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 import type { ThirdSpace, UniversityLandmark } from '../lib/supabase';
-import { MANILA_UNIVERSITIES } from '../lib/mockData';
 
 // MapTiler API Key
 const MAPTILER_KEY =
@@ -15,19 +14,20 @@ interface MapProps {
   onSelectSpot: (spot: ThirdSpace) => void;
   selectedCategory: string | null;
   selectedUniversity?: UniversityLandmark | null;
-  onSelectUniversity?: (uni: UniversityLandmark) => void;
+  onSelectUniversity?: (uni: UniversityLandmark | null) => void;
 }
 
 // 🔒 Tight Metro Manila Bounding Box
 const STRICT_MANILA_BOUNDS: [number, number, number, number] = [
-  120.9000, 14.5000, // Southwest: Pasay / Manila Bay
-  121.0800, 14.6800  // Northeast: QC / Valenzuela border
+  120.9000, 14.5000, // Southwest
+  121.0800, 14.6800  // Northeast
 ];
 
 export const ManilaMap: React.FC<MapProps> = ({
   spots,
   onSelectSpot,
   selectedCategory,
+  selectedUniversity,
   onSelectUniversity,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ export const ManilaMap: React.FC<MapProps> = ({
   const spotMarkersRef = useRef<maptilersdk.Marker[]>([]);
   const uniMarkersRef = useRef<maptilersdk.Marker[]>([]);
 
-  // Initialize MapTiler Map constrained strictly to Manila
+  // Initialize MapTiler Map
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
@@ -45,7 +45,7 @@ export const ManilaMap: React.FC<MapProps> = ({
         style: maptilersdk.MapStyle.STREETS,
         center: [120.9842, 14.5995], // Manila City Center
         zoom: 13.2,
-        minZoom: 12.2, // 🔒 Lock zoom out
+        minZoom: 12.2,
         maxZoom: 18,
         pitch: 30,
         maxBounds: STRICT_MANILA_BOUNDS,
@@ -65,58 +65,62 @@ export const ManilaMap: React.FC<MapProps> = ({
     };
   }, []);
 
-  // Render 🏛️ University Campus Anchor Landmark Pins
+  // 🏛️ Render University Pin ONLY when active (Default is DEACTIVATED / Hidden!)
   useEffect(() => {
     const map = mapInstance.current;
     if (!map) return;
 
-    // Clear existing university pins
+    // Clear existing university pin markers
     uniMarkersRef.current.forEach((m) => m.remove());
     uniMarkersRef.current = [];
 
-    MANILA_UNIVERSITIES.forEach((uni) => {
-      const uniEl = document.createElement('div');
-      uniEl.className = 'cursor-pointer group transform transition-all duration-300 hover:scale-125 z-40';
+    // If NO university is active, keep university pins hidden (Default Deactivated!)
+    if (!selectedUniversity) return;
 
-      // Gold & Navy Shield Pin for Universities
-      uniEl.innerHTML = `
-        <div class="relative flex flex-col items-center">
-          <div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-3 py-1.5 rounded-2xl shadow-2xl border-2 border-amber-300 flex items-center space-x-1.5 font-extrabold text-xs tracking-tight">
-            <span>🏛️</span>
-            <span>${uni.shortCode}</span>
-          </div>
-          <div class="w-2.5 h-2.5 bg-amber-700 rotate-45 -mt-1 border-r border-b border-amber-300"></div>
-        </div>
-      `;
-
-      uniEl.addEventListener('click', (e) => {
-        e.stopPropagation();
-        map.flyTo({
-          center: [uni.lng, uni.lat],
-          zoom: 15.5,
-          essential: true,
-        });
-        if (onSelectUniversity) onSelectUniversity(uni);
-      });
-
-      const popupHTML = `
-        <div style="font-family: 'Inter', sans-serif; padding: 4px; max-width: 220px;">
-          <span style="background: #fef3c7; color: #b45309; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">UNIVERSITY LANDMARK</span>
-          <h4 style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 14px; color: #1b2a22; margin: 4px 0 2px 0;">${uni.name}</h4>
-          <p style="font-size: 11px; color: #586b61; margin: 0;">Click to zoom into campus study spots</p>
-        </div>
-      `;
-
-      const marker = new maptilersdk.Marker({ element: uniEl })
-        .setLngLat([uni.lng, uni.lat])
-        .setPopup(new maptilersdk.Popup({ offset: 20 }).setHTML(popupHTML))
-        .addTo(map);
-
-      uniMarkersRef.current.push(marker);
+    // Fly camera smoothly to active university campus
+    map.flyTo({
+      center: [selectedUniversity.lng, selectedUniversity.lat],
+      zoom: 15.5,
+      essential: true,
     });
-  }, [onSelectUniversity]);
 
-  // Render ☕ Third Space Spot Pins
+    // Create ONLY the active University Landmark Pin
+    const uniEl = document.createElement('div');
+    uniEl.className = 'cursor-pointer group transform transition-all duration-300 hover:scale-125 z-40';
+
+    uniEl.innerHTML = `
+      <div class="relative flex flex-col items-center">
+        <div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white px-3 py-1.5 rounded-2xl shadow-2xl border-2 border-amber-300 flex items-center space-x-1.5 font-extrabold text-xs tracking-tight animate-bounce">
+          <span>🏛️</span>
+          <span>${selectedUniversity.shortCode} Campus</span>
+        </div>
+        <div class="w-2.5 h-2.5 bg-amber-700 rotate-45 -mt-1 border-r border-b border-amber-300"></div>
+      </div>
+    `;
+
+    // Click active pin to deactivate / reset view
+    uniEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (onSelectUniversity) onSelectUniversity(null);
+    });
+
+    const popupHTML = `
+      <div style="font-family: 'Inter', sans-serif; padding: 4px; max-width: 220px;">
+        <span style="background: #fef3c7; color: #b45309; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">ACTIVE CAMPUS LANDMARK</span>
+        <h4 style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 14px; color: #1b2a22; margin: 4px 0 2px 0;">${selectedUniversity.name}</h4>
+        <p style="font-size: 11px; color: #586b61; margin: 0;">Click pin again to deactivate</p>
+      </div>
+    `;
+
+    const marker = new maptilersdk.Marker({ element: uniEl })
+      .setLngLat([selectedUniversity.lng, selectedUniversity.lat])
+      .setPopup(new maptilersdk.Popup({ offset: 20 }).setHTML(popupHTML))
+      .addTo(map);
+
+    uniMarkersRef.current.push(marker);
+  }, [selectedUniversity, onSelectUniversity]);
+
+  // ☕ Render Third Space Spot Pins
   useEffect(() => {
     const map = mapInstance.current;
     if (!map) return;
@@ -187,8 +191,12 @@ export const ManilaMap: React.FC<MapProps> = ({
     <div className="w-full relative rounded-3xl overflow-hidden border border-[#dce4e0] shadow-md bg-[#eef3f0]" style={{ height: '440px' }}>
       <div ref={mapContainer} style={{ width: '100%', height: '100%', minHeight: '440px' }} />
       <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-[#dce4e0] shadow-sm text-xs font-bold text-[#567b66] pointer-events-none z-10 flex items-center gap-1.5">
-        <span>🏛️</span>
-        <span>Manila University Landmarks & Study Spots</span>
+        <span>🗺️</span>
+        <span>
+          {selectedUniversity
+            ? `Active Landmark: ${selectedUniversity.name} (${selectedUniversity.shortCode})`
+            : 'Metro Manila Interactive Map (Select a Campus to Activate Landmark)'}
+        </span>
       </div>
     </div>
   );
