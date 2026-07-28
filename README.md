@@ -48,7 +48,7 @@ For over 300,000 students studying across Metro Manila's University Belt (UST, U
 
 * 🗺️ **Interactive Manila Campus Map:** Built with MapLibre GL & MapTiler, pinpointing 12 major university landmarks and 16 authentic student spots with custom interactive pins.
 * 🔍 **Multi-Attribute Student Filters:** Filter spots by **Fast Wi-Fi (45+ Mbps)**, **Desk Power Outlets**, **100% Free Entry**, **24/7 Access**, and **Indoor/Outdoor Seating**.
-* 🌼 **Third Space Rating™ & Price-Value Score:** Custom rating system featuring multi-category breakdowns for Wi-Fi speed, outlet accessibility, quietness, and numerical Price & Value scores (`🌼 4.9`).
+* 🌼 **Third Place Rating™ & Price-Value Score:** Custom rating system featuring multi-category breakdowns for Wi-Fi speed, outlet accessibility, quietness, and numerical Price & Value scores (`🌼 4.9`).
 * 📸 **Enlarged Media Gallery & Google Maps Route Sync:** High-resolution photo carousels, embedded location maps, and direct links to Google Maps directions.
 * ✨ **Modern Frosted Glassmorphism UI:** Stunning aesthetic inspired by soft matcha tones (`#e8f5d6`, `#1b5e39`, `#84bd19`) with pop-out logo navigation and micro-animated interactions.
 
