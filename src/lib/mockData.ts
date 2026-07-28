@@ -1,8 +1,26 @@
-import type { ThirdSpace } from './supabase';
+import type { ThirdSpace, UniversityLandmark } from './supabase';
 
+// 🏛️ The 12 Manila University Campus Anchor Landmarks
+export const MANILA_UNIVERSITIES: UniversityLandmark[] = [
+  { id: 'uni-upm', name: 'University of the Philippines Manila', shortCode: 'UPM', lat: 14.5794, lng: 120.9882, city: 'Manila' },
+  { id: 'uni-ust', name: 'University of Santo Tomas', shortCode: 'UST', lat: 14.6091, lng: 120.9893, city: 'Manila' },
+  { id: 'uni-dlsu', name: 'De La Salle University Manila', shortCode: 'DLSU', lat: 14.5648, lng: 120.9932, city: 'Manila' },
+  { id: 'uni-feu', name: 'Far Eastern University Manila', shortCode: 'FEU', lat: 14.6041, lng: 120.9866, city: 'Manila' },
+  { id: 'uni-ue', name: 'University of the East Manila', shortCode: 'UE', lat: 14.6025, lng: 120.9889, city: 'Manila' },
+  { id: 'uni-nu', name: 'National University Manila', shortCode: 'NU Manila', lat: 14.6043, lng: 120.9942, city: 'Manila' },
+  { id: 'uni-adu', name: 'Adamson University', shortCode: 'AdU', lat: 14.5872, lng: 120.9858, city: 'Manila' },
+  { id: 'uni-pup', name: 'Polytechnic University of the Philippines', shortCode: 'PUP', lat: 14.5979, lng: 121.0108, city: 'Manila' },
+  { id: 'uni-plm', name: 'Pamantasan ng Lungsod ng Maynila', shortCode: 'PLM', lat: 14.5867, lng: 120.9762, city: 'Manila' },
+  { id: 'uni-csb', name: 'De La Salle-College of Saint Benilde', shortCode: 'DLSU-CSB', lat: 14.5628, lng: 120.9950, city: 'Manila' },
+  { id: 'uni-mapua', name: 'Mapúa University Intramuros', shortCode: 'Mapúa', lat: 14.5905, lng: 120.9761, city: 'Manila' },
+  { id: 'uni-cghc', name: 'Chinese General Hospital Colleges', shortCode: 'CGHC', lat: 14.6225, lng: 120.9877, city: 'Manila' },
+];
+
+// ☕ Third Space Spots around Manila Universities
 export const MOCK_SPOTS: ThirdSpace[] = [
   {
     id: 'spot-1',
+    university_id: 'uni-upm',
     title: 'UP Manila Learning Resource Center & Library',
     category: 'library',
     description: 'Quiet public study area for UPM students with aircon, research databases, and study desks.',
@@ -28,6 +46,7 @@ export const MOCK_SPOTS: ThirdSpace[] = [
   },
   {
     id: 'spot-2',
+    university_id: 'uni-upm',
     title: 'Pedro Gil Budget Kainan & Carinderia Hub',
     category: 'kainan',
     description: 'Popular student budget food spot with affordable rice meals below ₱80 (UPM PENGE MORE KAINAN PLSZ!).',
@@ -52,6 +71,7 @@ export const MOCK_SPOTS: ThirdSpace[] = [
   },
   {
     id: 'spot-3',
+    university_id: 'uni-ust',
     title: 'Dapitan 24/7 Study Cafe',
     category: 'cafe',
     description: 'Cozy 24-hour study cafe near UST Dapitan gate with strong Wi-Fi and power outlets at every desk.',
@@ -77,6 +97,7 @@ export const MOCK_SPOTS: ThirdSpace[] = [
   },
   {
     id: 'spot-4',
+    university_id: 'uni-dlsu',
     title: 'Taft Co-Working & Study Lounge',
     category: 'coworking',
     description: 'Modern study hub opposite DLSU campus featuring high-speed fiber internet and free brewed coffee.',
@@ -101,9 +122,10 @@ export const MOCK_SPOTS: ThirdSpace[] = [
   },
   {
     id: 'spot-5',
+    university_id: 'uni-plm',
     title: 'Intramuros Public Reading Room & Garden',
     category: 'park',
-    description: 'Serene open-air garden space with shade and stone benches inside historic Intramuros.',
+    description: 'Serene open-air garden space with shade and stone benches inside historic Intramuros near PLM & Mapúa.',
     address: 'General Luna St, Intramuros, Manila',
     lat: 14.5894,
     lng: 120.9752,

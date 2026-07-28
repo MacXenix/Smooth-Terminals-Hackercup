@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import type { ThirdSpace } from '../lib/supabase';
+import type { ThirdSpace, UniversityLandmark } from '../lib/supabase';
+import { MANILA_UNIVERSITIES } from '../lib/mockData';
+import { ManilaMap } from './Map';
 import {
   Search,
   Coffee,
@@ -11,6 +13,8 @@ import {
   MapPin,
   ChevronRight,
   Sparkles,
+  Map as MapIcon,
+  GraduationCap,
 } from 'lucide-react';
 
 interface MainPageProps {
@@ -26,6 +30,7 @@ export const MainPage: React.FC<MainPageProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [selectedUniversity, setSelectedUniversity] = useState<UniversityLandmark | null>(null);
 
   // 4 Main Categories
   const MAIN_CATEGORIES = [
@@ -35,9 +40,12 @@ export const MainPage: React.FC<MainPageProps> = ({
     { id: 'park', label: 'Parks', icon: Trees },
   ];
 
-  // Filter spots based on search bar & active category pill
+  // Filter spots based on search bar, category pill, & university
   const filteredSpots = spots.filter((spot) => {
     if (activeCategory && spot.category !== activeCategory) {
+      return false;
+    }
+    if (selectedUniversity && spot.university_id !== selectedUniversity.id) {
       return false;
     }
     if (searchQuery.trim()) {
@@ -61,11 +69,19 @@ export const MainPage: React.FC<MainPageProps> = ({
     }
   };
 
+  const handleUniversityClick = (uni: UniversityLandmark) => {
+    if (selectedUniversity?.id === uni.id) {
+      setSelectedUniversity(null);
+    } else {
+      setSelectedUniversity(uni);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#f8f7f4] text-[#1b2a22] font-sans">
+    <div className="min-h-screen bg-[#f8f7f4] text-[#1b2a22] font-sans pb-12">
       {/* Hero & Search Header Section */}
-      <section className="relative px-4 pt-12 pb-8 max-w-5xl mx-auto text-center space-y-6">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#eef3f0] border border-[#dce4e0] text-xs font-semibold text-[#586b61]">
+      <section className="relative px-4 pt-10 pb-6 max-w-5xl mx-auto text-center space-y-6">
+        <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#eef3f0] border border-[#dce4e0] text-xs font-semibold text-[#586b61]">
           <Sparkles className="w-3.5 h-3.5 text-[#567b66]" />
           <span>Student Third Space & Manila Livability Directory</span>
         </div>
@@ -74,7 +90,7 @@ export const MainPage: React.FC<MainPageProps> = ({
           Find Your Perfect <span className="text-[#567b66]">Study Space</span> & Kainan
         </h1>
         <p className="text-sm sm:text-base text-[#586b61] max-w-2xl mx-auto font-medium">
-          Discover quiet cafes, free libraries, budget food spots, and study hubs around Manila universities (UPM, UST, DLSU, ADMU).
+          Discover quiet cafes, free libraries, budget food spots, and study hubs around Manila universities (UPM, UST, DLSU, FEU, PUP, Mapúa, etc.).
         </p>
 
         {/* Centered Search Bar */}
@@ -86,7 +102,7 @@ export const MainPage: React.FC<MainPageProps> = ({
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search study spots, Wi-Fi, UPM, UST, budget kainan..."
+            placeholder="Search study spots, Wi-Fi, UPM, UST, DLSU, PUP, budget kainan..."
             className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#dce4e0] rounded-2xl text-sm text-[#1b2a22] placeholder-[#586b61]/60 focus:outline-none focus:ring-2 focus:ring-[#567b66] focus:border-transparent transition shadow-sm"
           />
         </div>
@@ -114,8 +130,33 @@ export const MainPage: React.FC<MainPageProps> = ({
         </div>
       </section>
 
-      {/* Scrollable Featured Places Carousel */}
-      <section className="max-w-6xl mx-auto px-4 py-6 space-y-4">
+      {/* 🏛️ 12 Manila University Campus Jump Filter Pills */}
+      <section className="max-w-6xl mx-auto px-4 py-2">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
+          <span className="text-xs font-bold text-[#586b61] flex items-center gap-1 shrink-0">
+            <GraduationCap className="w-4 h-4 text-[#567b66]" /> Campus:
+          </span>
+          {MANILA_UNIVERSITIES.map((uni) => {
+            const isSelected = selectedUniversity?.id === uni.id;
+            return (
+              <button
+                key={uni.id}
+                onClick={() => handleUniversityClick(uni)}
+                className={`text-xs px-3 py-1.5 rounded-xl font-bold border transition-all shrink-0 ${
+                  isSelected
+                    ? 'bg-amber-600 text-white border-amber-600 shadow-md'
+                    : 'bg-white text-[#1b2a22] border-[#dce4e0] hover:border-amber-500'
+                }`}
+              >
+                🏛️ {uni.shortCode}
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* 🎠 Scrollable Featured Places Carousel */}
+      <section className="max-w-6xl mx-auto px-4 py-4 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl font-extrabold text-[#1b2a22]">Featured Places & Study Spots</h2>
@@ -188,6 +229,27 @@ export const MainPage: React.FC<MainPageProps> = ({
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* 🗺️ Interactive Manila Map Section */}
+      <section className="max-w-6xl mx-auto px-4 py-6 space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-extrabold text-[#1b2a22] flex items-center gap-2">
+            <MapIcon className="w-5 h-5 text-[#567b66]" /> Metro Manila University Landmarks & Pinpoint Map
+          </h2>
+          <span className="text-xs font-semibold text-[#586b61]">
+            Click any pin to inspect details
+          </span>
+        </div>
+        <div className="w-full">
+          <ManilaMap
+            spots={filteredSpots}
+            onSelectSpot={onSelectSpot}
+            selectedCategory={activeCategory}
+            selectedUniversity={selectedUniversity}
+            onSelectUniversity={(uni) => setSelectedUniversity(uni)}
+          />
         </div>
       </section>
     </div>

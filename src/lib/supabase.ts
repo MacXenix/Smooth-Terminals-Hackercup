@@ -5,9 +5,20 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'dummy_key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// 🏛️ University Campus Anchor Landmark
+export interface UniversityLandmark {
+  id: string;
+  name: string;
+  shortCode: string; // e.g. UPM, UST, DLSU, FEU, PUP, Mapua
+  lat: number;
+  lng: number;
+  city?: string;
+}
+
+// ☕ Third Space Spot (Cafes, Libraries, Budget Kainan, Study Hubs)
 export interface ThirdSpace {
   id: string;
-  university_id?: string;
+  university_id?: string; // Links spot to nearest university landmark!
   title: string;
   category: string;
   description: string;
