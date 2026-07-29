@@ -800,11 +800,11 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               {/* Black Card: Third Place Rating™ */}
               <div className="bg-[#000000] text-white p-5 rounded-3xl flex flex-col justify-between shadow-xl space-y-3 hover:scale-[1.02] transition-transform duration-300">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-300/20 text-[#000000] flex items-center justify-center p-1 shadow">
-                    <img src={sunflowerScoreIcon} alt="Sunflower Score" className="w-8 h-8 object-contain" />
+                <div className="flex items-center space-x-4">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-amber-300/25 text-[#000000] flex items-center justify-center p-2 shadow-lg shrink-0 border border-amber-300/30">
+                    <img src={sunflowerScoreIcon} alt="Sunflower Score" className="w-12 h-12 sm:w-14 sm:h-14 object-contain filter drop-shadow-md" />
                   </div>
-                  <span className="text-4xl font-extrabold tracking-tight">
+                  <span className="text-5xl font-black tracking-tight text-white">
                     {spot.overall_rating ? spot.overall_rating.toFixed(1) : '4.8'}
                   </span>
                 </div>
