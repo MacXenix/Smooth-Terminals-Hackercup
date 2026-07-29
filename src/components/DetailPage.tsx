@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import type { ThirdSpace } from '../lib/supabase';
 import logoImg from '../assets/logo.png';
+import sunflowerScoreIcon from '../assets/icons/sunflowerScore.png';
+import wifiIcon from '../assets/icons/wifi.png';
+import outletIcon from '../assets/icons/power outlets.png';
+import vibeCodingIcon from '../assets/icons/mingcute_vibe-coding-fill.png';
+import priceTagIcon from '../assets/icons/solar_tag-price-bold.png';
 import {
   Pagination,
   PaginationContent,
@@ -30,6 +35,7 @@ import {
   Wifi,
   Zap,
   Lock,
+  Tag,
   Image as ImageIcon,
   Check,
   UploadCloud,
@@ -312,7 +318,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                 {/* Wi-Fi Rating */}
                 <div className="bg-white p-3.5 rounded-xl border border-[#c8e2a6] space-y-1.5 shadow-sm">
                   <span className="font-extrabold text-[#1b2a22] flex items-center gap-1.5 text-xs sm:text-sm">
-                    <Wifi className="w-4 h-4 text-sky-600" /> Wi-Fi & Speed Rating:
+                    <img src={wifiIcon} alt="Wi-Fi" className="w-4 h-4 object-contain" /> Wi-Fi & Speed Rating:
                   </span>
                   {renderStarPicker(categoryRatings.wifi, (r) =>
                     setCategoryRatings({ ...categoryRatings, wifi: r })
@@ -322,17 +328,17 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                 {/* Outlets Rating */}
                 <div className="bg-white p-3.5 rounded-xl border border-[#c8e2a6] space-y-1.5 shadow-sm">
                   <span className="font-extrabold text-[#1b2a22] flex items-center gap-1.5 text-xs sm:text-sm">
-                    <Zap className="w-4 h-4 text-amber-500" /> Power Sockets Rating:
+                    <img src={outletIcon} alt="Power Outlets" className="w-4 h-4 object-contain" /> Power Sockets Rating:
                   </span>
                   {renderStarPicker(categoryRatings.outlets, (r) =>
                     setCategoryRatings({ ...categoryRatings, outlets: r })
                   )}
                 </div>
 
-                {/* Quiet Atmosphere Rating */}
+                {/* Quiet Atmosphere / Ambiance Rating */}
                 <div className="bg-white p-3.5 rounded-xl border border-[#c8e2a6] space-y-1.5 shadow-sm">
                   <span className="font-extrabold text-[#1b2a22] flex items-center gap-1.5 text-xs sm:text-sm">
-                    <Clock className="w-4 h-4 text-purple-600" /> Quiet Atmosphere Rating:
+                    <img src={vibeCodingIcon} alt="Ambiance" className="w-4 h-4 object-contain" /> Ambiance & Quiet Rating:
                   </span>
                   {renderStarPicker(categoryRatings.quiet, (r) =>
                     setCategoryRatings({ ...categoryRatings, quiet: r })
@@ -342,7 +348,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                 {/* Price & Value Rating */}
                 <div className="bg-white p-3.5 rounded-xl border border-[#c8e2a6] space-y-1.5 shadow-sm">
                   <span className="font-extrabold text-[#1b2a22] flex items-center gap-1.5 text-xs sm:text-sm">
-                    <span className="text-[#84bd19]">🌼</span> Price & Value Rating:
+                    <img src={priceTagIcon} alt="Price & Value" className="w-4 h-4 object-contain" /> Price & Value Rating:
                   </span>
                   {renderStarPicker(categoryRatings.priceValue, (r) =>
                     setCategoryRatings({ ...categoryRatings, priceValue: r })
@@ -774,7 +780,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                   className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#76ab13] hover:bg-[#5f8a0f] active:scale-95 text-white text-xs font-bold rounded-xl shadow transition-all duration-200"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
-                  <span>Suggest Edit ⭐️</span>
+                  <span>Suggest Edit</span>
                 </button>
                 <button
                   onClick={() => setIsFavorited(!isFavorited)}
@@ -785,7 +791,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                   }`}
                 >
                   <Bookmark className="w-3.5 h-3.5 fill-current" />
-                  <span>{isFavorited ? 'Saved Spot' : 'Favorite Spot 🔖'}</span>
+                  <span>{isFavorited ? 'Saved Spot' : 'Favorite Spot'}</span>
                 </button>
               </div>
             </div>
@@ -795,8 +801,8 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               {/* Black Card: Third Place Rating™ */}
               <div className="bg-[#000000] text-white p-5 rounded-3xl flex flex-col justify-between shadow-xl space-y-3 hover:scale-[1.02] transition-transform duration-300">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-300 text-[#000000] flex items-center justify-center text-xl font-bold shadow">
-                    🌼
+                  <div className="w-10 h-10 rounded-full bg-amber-300/20 text-[#000000] flex items-center justify-center p-1 shadow">
+                    <img src={sunflowerScoreIcon} alt="Sunflower Score" className="w-8 h-8 object-contain" />
                   </div>
                   <span className="text-4xl font-extrabold tracking-tight">
                     {spot.overall_rating ? spot.overall_rating.toFixed(1) : '4.8'}
@@ -836,27 +842,27 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               <h2 className="text-2xl font-extrabold text-[#1b2a22]">What this place offers</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base font-extrabold text-[#1b2a22]">
                 <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <img src={wifiIcon} alt="Wi-Fi" className="w-5 h-5 object-contain shrink-0" />
                   <span>{spot.has_wifi ? 'Fast 45 Mbps Wi-Fi' : 'No Wi-Fi'}</span>
                 </div>
                 <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <img src={outletIcon} alt="Power Outlets" className="w-5 h-5 object-contain shrink-0" />
                   <span>{spot.has_outlets ? 'Desk Power Outlets' : 'No Outlets'}</span>
                 </div>
                 <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <img src={priceTagIcon} alt="Price Tag" className="w-5 h-5 object-contain shrink-0" />
                   <span>{spot.is_free ? '100% Free Entry' : `Paid Spot (${spot.price_range})`}</span>
                 </div>
                 <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <Clock className="w-5 h-5 text-black shrink-0" />
                   <span>{spot.is_24_7 ? 'Open 24/7 (Late Night)' : 'Standard Hours'}</span>
                 </div>
                 <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <Lock className="w-5 h-5 text-[#1b5e39] shrink-0" />
                   <span>{spot.needs_student_id ? 'Requires Student ID' : 'Open to All'}</span>
                 </div>
                 <div className="flex items-center space-x-3 bg-[#e8f5d6]/40 p-3.5 rounded-2xl border border-[#c8e2a6]/60">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <img src={vibeCodingIcon} alt="Ambiance" className="w-5 h-5 object-contain shrink-0" />
                   <span className="capitalize text-sm sm:text-base font-extrabold text-[#1b2a22]">
                     {spot.indoor_outdoor ? `${spot.indoor_outdoor} Seating` : 'Indoor Aircon'}
                   </span>
@@ -980,7 +986,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
                 className="flex items-center space-x-1.5 px-3.5 py-2 bg-[#1b5e39] hover:bg-[#154b2d] text-white text-xs font-extrabold rounded-xl shadow active:scale-95 transition"
               >
                 <Star className="w-3.5 h-3.5 fill-current text-amber-300" />
-                <span>Edit Category Ratings ⭐️</span>
+                <span>Edit Category Ratings</span>
               </button>
               <span className="text-xs font-bold text-[#45690b]">
                 Based on {spot.total_reviews || 120} Reviews
@@ -991,7 +997,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               <div className="flex flex-col items-center justify-center p-3 text-center space-y-1">
                 <span className="text-xs font-bold text-[#45690b]">Wi-Fi & Speed</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <img src={wifiIcon} alt="Wi-Fi" className="w-6 h-6 object-contain shrink-0" />
                   <span className="text-3xl font-extrabold text-[#1b2a22]">
                     {categoryRatings.wifi.toFixed(1)}
                   </span>
@@ -1001,7 +1007,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               <div className="flex flex-col items-center justify-center p-3 text-center space-y-1">
                 <span className="text-xs font-bold text-[#45690b]">Power Outlets</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <img src={outletIcon} alt="Power Outlets" className="w-6 h-6 object-contain shrink-0" />
                   <span className="text-3xl font-extrabold text-[#1b2a22]">
                     {categoryRatings.outlets.toFixed(1)}
                   </span>
@@ -1009,9 +1015,9 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               </div>
 
               <div className="flex flex-col items-center justify-center p-3 text-center space-y-1">
-                <span className="text-xs font-bold text-[#45690b]">Quiet Atmosphere</span>
+                <span className="text-xs font-bold text-[#45690b]">Ambiance</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <img src={vibeCodingIcon} alt="Ambiance" className="w-6 h-6 object-contain shrink-0" />
                   <span className="text-3xl font-extrabold text-[#1b2a22]">
                     {categoryRatings.quiet.toFixed(1)}
                   </span>
@@ -1021,7 +1027,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               <div className="flex flex-col items-center justify-center p-3 text-center space-y-1 pt-3 sm:pt-0">
                 <span className="text-xs font-bold text-[#45690b]">Price & Value</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-[#84bd19] text-xl">🌼</span>
+                  <img src={priceTagIcon} alt="Price Tag" className="w-6 h-6 object-contain shrink-0" />
                   <span className="text-3xl font-extrabold text-[#1b5e39]">
                     {categoryRatings.priceValue.toFixed(1)}
                   </span>
@@ -1050,19 +1056,27 @@ export const DetailPage: React.FC<DetailPageProps> = ({ spot, onBack }) => {
               {showDetailedRatingInputs && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-[#e8f5d6]/50 rounded-2xl border border-[#c8e2a6] text-xs">
                   <div className="space-y-1">
-                    <span className="font-extrabold text-[#1b2a22]">Wi-Fi Rating:</span>
+                    <span className="font-extrabold text-[#1b2a22] flex items-center gap-1">
+                      <Wifi className="w-3.5 h-3.5 text-sky-600" /> Wi-Fi Rating:
+                    </span>
                     {renderStarPicker(categoryRatings.wifi, (r) => setCategoryRatings({ ...categoryRatings, wifi: r }))}
                   </div>
                   <div className="space-y-1">
-                    <span className="font-extrabold text-[#1b2a22]">Power Sockets Rating:</span>
+                    <span className="font-extrabold text-[#1b2a22] flex items-center gap-1">
+                      <Zap className="w-3.5 h-3.5 text-amber-500" /> Power Sockets Rating:
+                    </span>
                     {renderStarPicker(categoryRatings.outlets, (r) => setCategoryRatings({ ...categoryRatings, outlets: r }))}
                   </div>
                   <div className="space-y-1">
-                    <span className="font-extrabold text-[#1b2a22]">Quiet Atmosphere:</span>
+                    <span className="font-extrabold text-[#1b2a22] flex items-center gap-1">
+                      <img src={vibeCodingIcon} alt="Ambiance" className="w-3.5 h-3.5 object-contain" /> Ambiance Rating:
+                    </span>
                     {renderStarPicker(categoryRatings.quiet, (r) => setCategoryRatings({ ...categoryRatings, quiet: r }))}
                   </div>
                   <div className="space-y-1">
-                    <span className="font-extrabold text-[#1b2a22]">Price & Value:</span>
+                    <span className="font-extrabold text-[#1b2a22] flex items-center gap-1">
+                      <Tag className="w-3.5 h-3.5 text-emerald-600" /> Price & Value Rating:
+                    </span>
                     {renderStarPicker(categoryRatings.priceValue, (r) => setCategoryRatings({ ...categoryRatings, priceValue: r }))}
                   </div>
                 </div>

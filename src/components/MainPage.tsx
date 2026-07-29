@@ -3,6 +3,7 @@ import type { ThirdSpace, UniversityLandmark } from '../lib/supabase';
 import { MANILA_UNIVERSITIES } from '../lib/mockData';
 import { ManilaMap, InteractivePinPickerMap } from './Map';
 import logoImg from '../assets/logo.png';
+import sunflowerScoreIcon from '../assets/icons/sunflowerScore.png';
 import {
   Search,
   Coffee,
@@ -745,7 +746,7 @@ export const MainPage: React.FC<MainPageProps> = ({
                   {/* Top Right Badge: Green Price Tag & Rating */}
                   <div className="absolute top-3 right-3 flex items-center space-x-1.5">
                     <div className="bg-[#1b5e39] text-white px-2.5 py-1 rounded-xl text-[11px] font-black shadow flex items-center space-x-1 border border-white/30">
-                      <span className="text-amber-300">🌼</span>
+                      <img src={sunflowerScoreIcon} alt="Sunflower Score" className="w-4 h-4 object-contain inline" />
                       <span>{spot.overall_rating ? spot.overall_rating.toFixed(1) : '4.9'}</span>
                     </div>
                     <div className="bg-[#154b2d] text-emerald-200 px-2.5 py-1 rounded-xl text-[11px] font-black shadow border border-white/20">
@@ -780,7 +781,7 @@ export const MainPage: React.FC<MainPageProps> = ({
                   )}
                   {spot.is_24_7 && (
                     <span className="flex items-center gap-1 bg-[#e8f5d6] px-2 py-0.5 rounded-lg">
-                      <Clock className="w-3 h-3 text-purple-600" /> 24/7
+                      <Clock className="w-3 h-3 text-black" /> 24/7
                     </span>
                   )}
                 </div>
@@ -876,7 +877,7 @@ export const MainPage: React.FC<MainPageProps> = ({
                     {/* Top Right Badge: Green Price Tag & Rating */}
                     <div className="absolute top-3 right-3 flex items-center space-x-1.5">
                       <div className="bg-[#1b5e39] text-white px-2.5 py-1 rounded-xl text-[11px] font-black shadow flex items-center space-x-1 border border-white/30">
-                        <span className="text-amber-300">🌼</span>
+                        <img src={sunflowerScoreIcon} alt="Sunflower Score" className="w-4 h-4 object-contain inline" />
                         <span>{spot.overall_rating ? spot.overall_rating.toFixed(1) : '4.9'}</span>
                       </div>
                       <div className="bg-[#154b2d] text-emerald-200 px-2.5 py-1 rounded-xl text-[11px] font-black shadow border border-white/20">
@@ -917,7 +918,7 @@ export const MainPage: React.FC<MainPageProps> = ({
                     )}
                     {spot.is_24_7 && (
                       <span className="flex items-center gap-1 bg-[#e8f5d6] px-2 py-0.5 rounded-lg">
-                        <Clock className="w-3 h-3 text-purple-600" /> 24/7
+                        <Clock className="w-3 h-3 text-black" /> 24/7
                       </span>
                     )}
                   </div>
@@ -1002,7 +1003,7 @@ export const MainPage: React.FC<MainPageProps> = ({
                       onChange={(e) => setExtraFilters({ ...extraFilters, is247: e.target.checked })}
                       className="accent-[#1b5e39] w-4 h-4"
                     />
-                    <Clock className="w-4 h-4 text-purple-600" />
+                    <Clock className="w-4 h-4 text-black" />
                     <span className="font-bold">Open 24/7 (Late Night)</span>
                   </label>
 
