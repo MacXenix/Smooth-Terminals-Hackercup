@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as maptilersdk from '@maptiler/sdk';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 import type { ThirdSpace, UniversityLandmark } from '../lib/supabase';
@@ -15,6 +15,7 @@ interface MapProps {
   selectedCategory: string | null;
   selectedUniversity?: UniversityLandmark | null;
   onSelectUniversity?: (uni: UniversityLandmark | null) => void;
+  onPinLocation?: (coords: { lat: number; lng: number }) => void;
 }
 
 // 🔒 Tight Metro Manila Bounding Box
@@ -29,11 +30,14 @@ export const ManilaMap: React.FC<MapProps> = ({
   selectedCategory,
   selectedUniversity,
   onSelectUniversity,
+  onPinLocation,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<maptilersdk.Map | null>(null);
   const spotMarkersRef = useRef<maptilersdk.Marker[]>([]);
   const uniMarkersRef = useRef<maptilersdk.Marker[]>([]);
+  const customPinMarkerRef = useRef<maptilersdk.Marker | null>(null);
+  const [pinnedCoords, setPinnedCoords] = useState<{ lat: number; lng: number } | null>(null);
 
   // Initialize MapTiler Map
   useEffect(() => {
@@ -54,9 +58,17 @@ export const ManilaMap: React.FC<MapProps> = ({
       map.addControl(new maptilersdk.NavigationControl(), 'top-right');
       mapInstance.current = map;
 
-      // Ensure crisp canvas rendering
       map.on('load', () => {
         map.resize();
+      });
+
+      // 📍 Interactive Click to Pin Listener
+      map.on('click', (e) => {
+        const { lng, lat } = e.lngLat;
+        setPinnedCoords({ lat, lng });
+        if (onPinLocation) {
+          onPinLocation({ lat, lng });
+        }
       });
     } catch (err) {
       console.error('Error initializing map:', err);
@@ -68,9 +80,49 @@ export const ManilaMap: React.FC<MapProps> = ({
         mapInstance.current = null;
       }
     };
-  }, []);
+  }, [onPinLocation]);
 
-  // 🏛️ Render Active University Landmark Pin (Without outer CSS transform conflicts!)
+  // 📍 Render Custom Pin Marker on Click
+  useEffect(() => {
+    const map = mapInstance.current;
+    if (!map) return;
+
+    if (customPinMarkerRef.current) {
+      customPinMarkerRef.current.remove();
+      customPinMarkerRef.current = null;
+    }
+
+    if (!pinnedCoords) return;
+
+    const pinEl = document.createElement('div');
+    pinEl.innerHTML = `
+      <div class="cursor-pointer transition-transform duration-200 hover:scale-125">
+        <div class="relative flex flex-col items-center">
+          <div class="bg-rose-600 text-white px-3 py-1.5 rounded-full shadow-2xl border-2 border-white font-extrabold text-xs flex items-center space-x-1 animate-bounce">
+            <span>📍</span>
+            <span>Your Pin Marker</span>
+          </div>
+          <div class="w-3 h-3 bg-rose-600 rotate-45 -mt-1 border-r border-b border-white"></div>
+        </div>
+      </div>
+    `;
+
+    const marker = new maptilersdk.Marker({ element: pinEl, anchor: 'bottom', draggable: true })
+      .setLngLat([pinnedCoords.lng, pinnedCoords.lat])
+      .addTo(map);
+
+    marker.on('dragend', () => {
+      const lngLat = marker.getLngLat();
+      setPinnedCoords({ lat: lngLat.lat, lng: lngLat.lng });
+      if (onPinLocation) {
+        onPinLocation({ lat: lngLat.lat, lng: lngLat.lng });
+      }
+    });
+
+    customPinMarkerRef.current = marker;
+  }, [pinnedCoords, onPinLocation]);
+
+  // 🏛️ Render Active University Landmark Pin
   useEffect(() => {
     const map = mapInstance.current;
     if (!map) return;
@@ -87,8 +139,6 @@ export const ManilaMap: React.FC<MapProps> = ({
     });
 
     const uniEl = document.createElement('div');
-
-    // Put transitions on INNER element to prevent MapTiler Matrix transform collision!
     uniEl.innerHTML = `
       <div class="cursor-pointer transition-transform duration-200 hover:scale-110">
         <div class="relative flex flex-col items-center">
@@ -122,7 +172,7 @@ export const ManilaMap: React.FC<MapProps> = ({
     uniMarkersRef.current.push(marker);
   }, [selectedUniversity, onSelectUniversity]);
 
-  // ☕ Render Third Space Spot Pins (Without outer CSS transform conflicts!)
+  // ☕ Render Third Space Spot Pins
   useEffect(() => {
     const map = mapInstance.current;
     if (!map) return;
@@ -156,7 +206,6 @@ export const ManilaMap: React.FC<MapProps> = ({
         categorySymbol = '🏢';
       }
 
-      // Put transitions on INNER element to prevent MapTiler Matrix transform collision!
       pinEl.innerHTML = `
         <div class="cursor-pointer transition-transform duration-200 hover:scale-110">
           <div class="relative flex flex-col items-center">
@@ -195,12 +244,87 @@ export const ManilaMap: React.FC<MapProps> = ({
     <div className="w-full relative rounded-3xl overflow-hidden border border-[#c8e2a6] shadow-md bg-[#eef3f0]" style={{ height: '440px' }}>
       <div ref={mapContainer} style={{ width: '100%', height: '100%', minHeight: '440px' }} />
       <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-[#c8e2a6] shadow-sm text-xs font-bold text-[#45690b] pointer-events-none z-10 flex items-center gap-1.5">
-        <span>🗺️</span>
+        <span>📍</span>
         <span>
-          {selectedUniversity
+          {pinnedCoords
+            ? `Pinned Location: ${pinnedCoords.lat.toFixed(4)}, ${pinnedCoords.lng.toFixed(4)}`
+            : selectedUniversity
             ? `Active Landmark: ${selectedUniversity.name} (${selectedUniversity.shortCode})`
-            : 'Metro Manila Interactive Map'}
+            : 'Click anywhere on map to drop a pin!'}
         </span>
+      </div>
+    </div>
+  );
+};
+
+// 📍 Standalone Interactive Map Component for Modal Pinning
+export const InteractivePinPickerMap: React.FC<{
+  initialLat?: number;
+  initialLng?: number;
+  onSelectCoordinates: (coords: { lat: number; lng: number }) => void;
+}> = ({ initialLat = 14.5995, initialLng = 120.9842, onSelectCoordinates }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<maptilersdk.Map | null>(null);
+  const markerRef = useRef<maptilersdk.Marker | null>(null);
+  const [coords, setCoords] = useState<{ lat: number; lng: number }>({
+    lat: initialLat,
+    lng: initialLng,
+  });
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) return;
+
+    try {
+      const map = new maptilersdk.Map({
+        container: containerRef.current,
+        style: maptilersdk.MapStyle.STREETS,
+        center: [initialLng, initialLat],
+        zoom: 15,
+        minZoom: 12,
+        maxZoom: 18,
+        maxBounds: STRICT_MANILA_BOUNDS,
+      });
+
+      map.addControl(new maptilersdk.NavigationControl(), 'top-right');
+      mapRef.current = map;
+
+      // Add Draggable Pin Marker
+      const marker = new maptilersdk.Marker({ color: '#e11d48', draggable: true })
+        .setLngLat([initialLng, initialLat])
+        .addTo(map);
+
+      markerRef.current = marker;
+
+      marker.on('dragend', () => {
+        const pos = marker.getLngLat();
+        setCoords({ lat: pos.lat, lng: pos.lng });
+        onSelectCoordinates({ lat: pos.lat, lng: pos.lng });
+      });
+
+      map.on('click', (e) => {
+        const { lng, lat } = e.lngLat;
+        marker.setLngLat([lng, lat]);
+        setCoords({ lat, lng });
+        onSelectCoordinates({ lat, lng });
+      });
+    } catch (err) {
+      console.error('Error initializing pin picker map:', err);
+    }
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, [initialLat, initialLng, onSelectCoordinates]);
+
+  return (
+    <div className="w-full h-56 rounded-2xl overflow-hidden border-2 border-[#1b5e39]/30 relative bg-slate-900 shadow-md">
+      <div ref={containerRef} className="w-full h-full" />
+      <div className="absolute top-2 left-2 bg-black/80 backdrop-blur-md text-white text-[11px] font-extrabold px-3 py-1 rounded-xl flex items-center space-x-1.5 z-10 border border-white/20">
+        <span className="text-rose-400">📍</span>
+        <span>Click or Drag Pin to Spot Location ({coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})</span>
       </div>
     </div>
   );

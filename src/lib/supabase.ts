@@ -35,6 +35,8 @@ export interface ThirdSpace {
   comp_shop_reg_required?: boolean;
   indoor_outdoor?: string;
   seat_capacity?: string;
+  overall_rating?: number; // e.g. 4.9
+  total_reviews?: number; // e.g. 340
   commute_info?: {
     lrt?: string;
     jeep?: string;

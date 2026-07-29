@@ -5,8 +5,8 @@
 <h1 align="center">🌿 ALTSpaces</h1>
 
 <p align="center">
-  <strong>Alternative Third Spaces for Manila Students</strong><br />
-  Discover, rate, and navigate authentic third spaces — cafes, public libraries, budget kainans, and 24/7 study hubs — across the University Belt, Taft Avenue, Intramuros, and Ermita.
+  <strong>Alternative Third Places for Manila Students</strong><br />
+  Discover, rate, and navigate authentic third places — cafes, public libraries, budget kainans, and 24/7 study hubs — across the University Belt, Taft Avenue, Intramuros, and Ermita.
 </p>
 
 <p align="center">

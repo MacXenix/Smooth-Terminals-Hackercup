@@ -37,7 +37,7 @@ export const MANILA_UNIVERSITIES: UniversityLandmark[] = [
   { id: 'uni-cghc', name: 'Chinese General Hospital Colleges', shortCode: 'CGHC', lat: 14.62525, lng: 120.98794, city: 'Manila' },
 ];
 
-// ☕ 16 Authentic Manila Student Third Spaces (Exact Pinpoint GPS Table)
+// ☕ 16 Authentic Manila Student Third Spaces (Exact Pinpoint GPS Table with Ratings)
 export const MOCK_SPOTS: ThirdSpace[] = [
   // --- CAFES ---
   {
@@ -58,6 +58,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Moderate',
+    overall_rating: 4.8,
+    total_reviews: 142,
     commute_info: {
       lrt: 'LRT-1 Pedro Gil Station (2 min walk)',
       jeep: 'Taft Ave jeepneys',
@@ -83,6 +85,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Spacious',
+    overall_rating: 4.7,
+    total_reviews: 285,
     commute_info: {
       lrt: 'LRT-1 Vito Cruz Station (3 min walk)',
     },
@@ -107,6 +111,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'both',
     seat_capacity: 'Moderate',
+    overall_rating: 4.9,
+    total_reviews: 98,
     commute_info: {
       lrt: 'LRT-1 Central Terminal Station (8 min walk)',
       jeep: 'Intramuros / Pier 15 jeepneys',
@@ -134,6 +140,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Very Spacious',
+    overall_rating: 4.8,
+    total_reviews: 412,
     commute_info: {
       lrt: 'LRT-1 United Nations (UN) Station (5 min walk)',
       jeep: 'Kalaw - Taft route',
@@ -159,6 +167,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Spacious',
+    overall_rating: 4.6,
+    total_reviews: 84,
     commute_info: {
       lrt: 'LRT-1 Tayuman Station (8 min walk)',
     },
@@ -183,6 +193,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Moderate',
+    overall_rating: 4.7,
+    total_reviews: 115,
     commute_info: {
       lrt: 'LRT-1 UN Avenue Station (3 min walk)',
     },
@@ -207,6 +219,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Quiet & Intimate',
+    overall_rating: 4.9,
+    total_reviews: 62,
     commute_info: {
       jeep: 'Pedro Gil - Roxas Blvd route',
     },
@@ -231,6 +245,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Moderate',
+    overall_rating: 4.8,
+    total_reviews: 78,
     commute_info: {
       jeep: 'Mabini / Roxas Blvd jeepneys',
     },
@@ -255,6 +271,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Moderate',
+    overall_rating: 4.9,
+    total_reviews: 104,
     commute_info: {
       lrt: 'LRT-1 Central Terminal Station (10 min walk)',
     },
@@ -281,6 +299,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'outdoor',
     seat_capacity: 'Very Spacious',
+    overall_rating: 4.6,
+    total_reviews: 530,
     commute_info: {
       lrt: 'LRT-1 UN Avenue Station (5 min walk)',
     },
@@ -305,6 +325,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'outdoor',
     seat_capacity: 'Spacious',
+    overall_rating: 4.8,
+    total_reviews: 310,
     commute_info: {
       lrt: 'LRT-1 Central Terminal Station (1 min walk)',
     },
@@ -329,6 +351,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'outdoor',
     seat_capacity: 'Moderate',
+    overall_rating: 4.9,
+    total_reviews: 185,
     commute_info: {
       lrt: 'LRT-1 Pedro Gil Station (10 min walk)',
       jeep: 'Paco - Faura jeepneys',
@@ -356,6 +380,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Spacious',
+    overall_rating: 4.9,
+    total_reviews: 340,
     commute_info: {
       jeep: 'Dapitan - Quiapo route',
     },
@@ -380,6 +406,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Spacious',
+    overall_rating: 4.8,
+    total_reviews: 290,
     commute_info: {
       jeep: 'España Blvd jeepneys',
     },
@@ -404,6 +432,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Moderate',
+    overall_rating: 4.7,
+    total_reviews: 175,
     commute_info: {
       jeep: 'Gastambide / Morayta jeepneys',
     },
@@ -428,6 +458,8 @@ export const MOCK_SPOTS: ThirdSpace[] = [
     comp_shop_reg_required: false,
     indoor_outdoor: 'indoor',
     seat_capacity: 'Spacious',
+    overall_rating: 4.9,
+    total_reviews: 210,
     commute_info: {
       lrt: 'LRT-1 Vito Cruz Station (2 min walk)',
     },
