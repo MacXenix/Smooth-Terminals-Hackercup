@@ -128,13 +128,10 @@ The optimized production bundle will be generated inside the `dist/` directory, 
 
 ---
 
----
-
 ## 🏆 Hackathon Submission
 
-Created with ❤️ for Students for **HackerCup 2026** by **Smooth Terminals**.
+Created with ❤️ for Manila Students for **HackerCup 2026** by **Smooth Terminal**.
 
 ## 📄 License
 
 Distributed under the MIT License.
-
